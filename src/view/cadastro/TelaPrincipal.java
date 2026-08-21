@@ -1,4 +1,4 @@
-package br.com.estoque.view;
+package view.cadastro;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
