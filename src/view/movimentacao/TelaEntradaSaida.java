@@ -1,4 +1,4 @@
-package view;
+package view.movimentacao;
 
 // Importa as classes do Swing utilizadas
 // para criar os componentes da interface.

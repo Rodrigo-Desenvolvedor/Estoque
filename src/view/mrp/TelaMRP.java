@@ -1,4 +1,4 @@
-package view;
+package view.mrp;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

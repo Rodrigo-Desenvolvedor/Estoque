@@ -1,4 +1,4 @@
-package view;
+package view.movimentacao;
 
 // Importa todas as classes necessárias do Swing,
 // que é a biblioteca que estou usando para criar a interface gráfica.

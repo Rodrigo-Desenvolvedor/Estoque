@@ -1,4 +1,4 @@
-package view;
+package view.movimentacao;
 
 public class TelaMovimentacao {
 

@@ -1,4 +1,4 @@
-package view;
+package view.inventario;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
