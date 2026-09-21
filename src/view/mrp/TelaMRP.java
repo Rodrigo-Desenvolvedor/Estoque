@@ -1,19 +1,19 @@
-package view.mrp;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
+package view;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-
-
-
 
 public class TelaMRP extends JPanel {
 
     private static final long serialVersionUID = 1L;
+
+    private static final Color AZUL_MENU = new Color(27, 54, 93);
+    private static final Color FUNDO = new Color(245, 247, 250);
+    private static final Color BORDA = new Color(226, 232, 240);
+    private static final Color TEXTO = new Color(30, 38, 52);
+    private static final Color CINZA = Color.GRAY;
 
     private final JTextField produto = new JTextField(20);
 
@@ -35,39 +35,50 @@ public class TelaMRP extends JPanel {
             "Sem ação"
         }
     );
-    
+
     private final JTextField quantidadeSugerida = new JTextField(15);
     private final JTextField dataPrevista = new JTextField(15);
     private final JTextField responsavel = new JTextField(20);
     private final JTextArea justificativa = new JTextArea(3, 30);
-    
-    
+
     private final DefaultTableModel modelo = new DefaultTableModel(
-    	    new Object[] { "Item", "Estoque atual", "Estoque mínimo", "Lead time", "Sugestão", "Status" },
-    	    0
-    	  ) {
-    	    public boolean isCellEditable(int l, int c) {
-    	      return false;
-    	    }
-    	  };
-    	  private final JTable tabela = new JTable(modelo);
-    	  
-    
+        new Object[] { "Item", "Estoque atual", "Estoque mínimo", "Lead time", "Sugestão", "Status"
+        },
+        0
+    ) {
+        public boolean isCellEditable(int l, int c) {
+            return false;
+        }
+    };
+
+    private final JTable tabela = new JTable(modelo);
 
     public TelaMRP() {
-    	setLayout(new BorderLayout(8, 8));
+        setLayout(new BorderLayout(8, 8));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBackground(FUNDO);
+
         montar();
         preencherDadosExemplo();
         preencherDetalhesExemplo();
     }
 
     private void montar() {
+
         JLabel titulo = new JLabel("Sugestões de Reposição - MRP");
         titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 20f));
+        titulo.setForeground(AZUL_MENU);
 
         JPanel f = new JPanel(new GridBagLayout());
-        f.setBorder(BorderFactory.createTitledBorder("Filtros"));
+        f.setBackground(FUNDO);
+
+        TitledBorder bordaFiltros = BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(BORDA),
+            "Filtros"
+        );
+
+        bordaFiltros.setTitleColor(TEXTO);
+        f.setBorder(bordaFiltros);
 
         GridBagConstraints g = new GridBagConstraints();
         g.insets = new Insets(4, 4, 4, 4);
@@ -77,32 +88,64 @@ public class TelaMRP extends JPanel {
         componente(f, g, 2, "Status:", status);
 
         JPanel b = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        b.setBackground(FUNDO);
 
         JButton filtrar = new JButton("Filtrar");
         JButton limpar = new JButton("Limpar");
+
+        configurarBotao(filtrar);
+        configurarBotao(limpar);
 
         b.add(filtrar);
         b.add(limpar);
 
         JPanel n = new JPanel(new BorderLayout());
+        n.setBackground(FUNDO);
+
         n.add(titulo, BorderLayout.NORTH);
         n.add(f, BorderLayout.CENTER);
         n.add(b, BorderLayout.SOUTH);
 
         add(n, BorderLayout.NORTH);
-        
+
         JPanel c = new JPanel(new BorderLayout());
-        c.setBorder(BorderFactory.createTitledBorder("Sugestões geradas pelo MRP"));
-        c.add(new JScrollPane(tabela));
+        c.setBackground(FUNDO);
+
+        TitledBorder bordaTabela = BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(BORDA),
+            "Sugestões geradas pelo MRP"
+        );
+
+        bordaTabela.setTitleColor(TEXTO);
+        c.setBorder(bordaTabela);
+
+        tabela.setForeground(TEXTO);
+        tabela.setGridColor(BORDA);
+        tabela.setSelectionBackground(AZUL_MENU);
+        tabela.setSelectionForeground(Color.WHITE);
+
+        tabela.getTableHeader().setBackground(AZUL_MENU);
+        tabela.getTableHeader().setForeground(Color.WHITE);
+
+        JScrollPane scrollTabela = new JScrollPane(tabela);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(BORDA));
+
+        c.add(scrollTabela);
 
         add(c, BorderLayout.CENTER);
 
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        
-        
+
         JPanel d = new JPanel(new GridBagLayout());
-        d.setBorder(BorderFactory.createTitledBorder("Detalhes da sugestão"));
+        d.setBackground(FUNDO);
+
+        TitledBorder bordaDetalhes = BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(BORDA),
+            "Detalhes da sugestão"
+        );
+
+        bordaDetalhes.setTitleColor(TEXTO);
+        d.setBorder(bordaDetalhes);
 
         GridBagConstraints gd = new GridBagConstraints();
         gd.insets = new Insets(4, 4, 4, 4);
@@ -113,15 +156,25 @@ public class TelaMRP extends JPanel {
 
         justificativa.setLineWrap(true);
         justificativa.setWrapStyleWord(true);
+        justificativa.setForeground(TEXTO);
 
-        componente(d, gd, 3, "Justificativa:", new JScrollPane(justificativa));
+        JScrollPane scrollJustificativa = new JScrollPane(justificativa);
+        scrollJustificativa.setBorder(BorderFactory.createLineBorder(BORDA));
+
+        componente(d, gd, 3, "Justificativa:", scrollJustificativa);
 
         JPanel a = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        a.setBackground(FUNDO);
 
         JButton aprovar = new JButton("Aprovar sugestão");
         JButton alterar = new JButton("Alterar quantidade");
         JButton recusar = new JButton("Recusar");
         JButton gerar = new JButton("Gerar solicitação");
+
+        configurarBotao(aprovar);
+        configurarBotao(alterar);
+        configurarBotao(recusar);
+        configurarBotao(gerar);
 
         a.add(aprovar);
         a.add(alterar);
@@ -129,12 +182,14 @@ public class TelaMRP extends JPanel {
         a.add(gerar);
 
         JPanel s = new JPanel(new BorderLayout());
+        s.setBackground(FUNDO);
+
         s.add(d, BorderLayout.CENTER);
         s.add(a, BorderLayout.SOUTH);
 
         add(s, BorderLayout.SOUTH);
     }
-    
+
     private void preencherDadosExemplo() {
         modelo.setRowCount(0);
 
@@ -174,8 +229,7 @@ public class TelaMRP extends JPanel {
             "Pendente"
         });
     }
-    
-    
+
     private void preencherDetalhesExemplo() {
         quantidadeSugerida.setText("Comprar 7 unidades");
         dataPrevista.setText("25/08/2026");
@@ -185,7 +239,12 @@ public class TelaMRP extends JPanel {
             "O estoque atual está abaixo do estoque mínimo definido para o item."
         );
     }
-    
+
+    private void configurarBotao(JButton botao) {
+        botao.setBackground(AZUL_MENU);
+        botao.setForeground(Color.WHITE);
+        botao.setFocusPainted(false);
+    }
 
     private void componente(
         JPanel p,
@@ -198,11 +257,18 @@ public class TelaMRP extends JPanel {
         g.gridy = y;
         g.weightx = 0;
         g.fill = GridBagConstraints.NONE;
-        p.add(new JLabel(r), g);
+
+        JLabel label = new JLabel(r);
+        label.setForeground(TEXTO);
+
+        p.add(label, g);
 
         g.gridx = 1;
         g.weightx = 1;
         g.fill = GridBagConstraints.HORIZONTAL;
+
+        t.setForeground(TEXTO);
+
         p.add(t, g);
     }
 }
