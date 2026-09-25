@@ -1,11 +1,12 @@
-package telas;
+package view.automacao;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TelaEstoqueMinMax extends JFrame {
+public class TelaEstoqueMinMax extends JPanel {
 
-    private JTextField txtProduto;
+    private static final long serialVersionUID = 1L;
+	private JTextField txtProduto;
     private JTextField txtAtual;
     private JTextField txtMinimo;
     private JTextField txtMaximo;
@@ -14,10 +15,7 @@ public class TelaEstoqueMinMax extends JFrame {
     public TelaEstoqueMinMax() {
 
 
-        setTitle("Estoque Mínimo e Máximo");
         setSize(550, 450);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
         
         JPanel painel = new JPanel();
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));

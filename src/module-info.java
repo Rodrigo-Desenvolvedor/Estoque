@@ -4,6 +4,6 @@
 /**
  * 
  */
-module Estoque {
+module EstoqueERP {
 	requires java.desktop;
 }

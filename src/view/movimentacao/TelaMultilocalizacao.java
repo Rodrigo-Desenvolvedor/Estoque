@@ -1,77 +1,66 @@
 package view.movimentacao;
 
-// Importa as classes do Swing que estou usando
-// para criar os componentes da interface gráfica.
 import javax.swing.*;
-
-// Importa a classe usada para criar margens
-// dentro dos painéis.
 import javax.swing.border.EmptyBorder;
-
-// Importa o modelo usado para criar e controlar
-// os dados que aparecem na tabela.
 import javax.swing.table.DefaultTableModel;
-
-// Importa classes do AWT, utilizadas para
-// layout, cores, espaçamentos e outros recursos visuais.
 import java.awt.*;
 
 
 // Classe responsável pela tela de Multilocalização.
-public class TelaMultilocalizacao {
+public class TelaMultilocalizacao extends JPanel {
 
+    private static final long serialVersionUID = 1L;
 
-    // Define a cor de fundo que será utilizada
-    // na tela.
+    // Cor de fundo da tela
     private final Color COR_FUNDO =
             new Color(245, 247, 250);
 
+    // Campos da consulta
+    private JTextField campoProdutoPesquisa;
+    private JButton botaoEscolherProdutoPesquisa;
 
-    // Declaro o painel principal da tela.
-    //
-    // Esse painel será retornado pelo método getPainel()
-    // e colocado como uma das abas da tela principal.
-    private JPanel painel;
+    // Campos da transferência
+    private JTextField campoOrigem;
+    private JTextField campoDestino;
+
+    private JTextField campoProdutoTransferencia;
+    private JButton botaoEscolherProdutoTransferencia;
+
+    private JTextField campoQuantidade;
+    private JTextField campoLote;
+    private JTextField campoSerie;
+    private JTextField campoDocumento;
+    private JTextField campoObservacao;
+
+    // Tabela de estoque
+    private JTable tabela;
+    private DefaultTableModel modeloTabela;
 
 
-    // Construtor da classe.
-    //
-    // Quando a classe for criada, o método criarTela()
-    // será chamado para montar a interface.
     public TelaMultilocalizacao() {
         criarTela();
     }
 
 
-    // Método responsável por criar todos os componentes
-    // e organizar a tela de Multilocalização.
+    /**
+     * Cria a interface da tela.
+     */
     private void criarTela() {
 
+        // Configura o próprio JPanel
+        setLayout(new BorderLayout(15, 15));
 
-        // Cria o painel principal.
-        //
-        // Estou usando BorderLayout com espaçamento de 15
-        // pixels entre as regiões.
-        painel = new JPanel(
-                new BorderLayout(15, 15)
-        );
-
-        // Adiciona uma margem de 20 pixels
-        // em todos os lados do painel.
-        painel.setBorder(
+        setBorder(
                 new EmptyBorder(20, 20, 20, 20)
         );
 
-        // Define a cor de fundo do painel.
-        painel.setBackground(COR_FUNDO);
+        setBackground(COR_FUNDO);
 
 
         // --------------------------------------------------
         // ÁREA DE PESQUISA DO PRODUTO
         // --------------------------------------------------
 
-        // Cria um painel para colocar o campo
-        // de pesquisa do produto e o botão.
         JPanel produtoPanel =
                 new JPanel(
                         new FlowLayout(
@@ -79,12 +68,8 @@ public class TelaMultilocalizacao {
                         )
                 );
 
-        // Define o fundo branco para esse painel.
         produtoPanel.setBackground(Color.WHITE);
 
-
-        // Cria uma borda com título para identificar
-        // a função dessa área.
         produtoPanel.setBorder(
                 BorderFactory.createTitledBorder(
                         "Consulta de estoque por localização"
@@ -92,44 +77,59 @@ public class TelaMultilocalizacao {
         );
 
 
-        // Adiciona o texto "Produto:" no painel.
         produtoPanel.add(
                 new JLabel("Produto:")
         );
 
 
-        // Cria o campo onde o usuário poderá
-        // informar o produto que deseja pesquisar.
-        //
-        // O número 25 representa aproximadamente
-        // a quantidade de colunas do campo.
-        JTextField produto =
-                new JTextField(25);
+        // Campo onde aparecerá o produto escolhido
+        campoProdutoPesquisa =
+                new JTextField(20);
+
+        campoProdutoPesquisa.setEditable(false);
 
 
-        // Adiciona o campo de produto ao painel.
-        produtoPanel.add(produto);
+        produtoPanel.add(
+                campoProdutoPesquisa
+        );
 
 
-        // Cria o botão que será utilizado
-        // para realizar a pesquisa.
+        // Botão para escolher produto
+        botaoEscolherProdutoPesquisa =
+                new JButton("Escolher produto");
+
+
+        produtoPanel.add(
+                botaoEscolherProdutoPesquisa
+        );
+
+
+        // Botão pesquisar
         JButton pesquisar =
                 new JButton("Pesquisar");
 
 
-        // Adiciona o botão ao painel.
-        produtoPanel.add(pesquisar);
+        produtoPanel.add(
+                pesquisar
+        );
+
+
+        // Ação para escolher produto
+        botaoEscolherProdutoPesquisa.addActionListener(
+                e -> escolherProdutoPesquisa()
+        );
+
+
+        // Ação do botão pesquisar
+        pesquisar.addActionListener(
+                e -> pesquisarProduto()
+        );
 
 
         // --------------------------------------------------
         // TABELA DE ESTOQUE POR LOCALIZAÇÃO
         // --------------------------------------------------
 
-        // Define os nomes das colunas que serão
-        // exibidas na tabela.
-        //
-        // Cada coluna representa uma informação
-        // relacionada ao estoque.
         String[] colunas = {
                 "Local",
                 "Quantidade",
@@ -138,39 +138,36 @@ public class TelaMultilocalizacao {
         };
 
 
-        // Cria o modelo que será utilizado pela tabela.
-        //
-        // Nesse momento a tabela começa vazia,
-        // porque os dados serão adicionados posteriormente.
-        DefaultTableModel modeloTabela =
+        modeloTabela =
                 new DefaultTableModel(
                         new Object[][]{},
                         colunas
                 );
 
 
-        // Cria a tabela utilizando o modelo
-        // que foi criado anteriormente.
-        JTable tabela =
+        tabela =
                 new JTable(modeloTabela);
 
 
-        // Define a altura das linhas da tabela.
         tabela.setRowHeight(28);
 
 
-        // Cria um painel para apresentar
-        // o estoque separado por local.
+        // Impede edição direta das células
+        tabela.setDefaultEditor(
+                Object.class,
+                null
+        );
+
+
         JPanel estoqueLocal =
-                new JPanel(new BorderLayout());
+                new JPanel(
+                        new BorderLayout()
+                );
 
 
-        // Define o fundo branco desse painel.
         estoqueLocal.setBackground(Color.WHITE);
 
 
-        // Cria uma borda com o título
-        // "Estoque por local".
         estoqueLocal.setBorder(
                 BorderFactory.createTitledBorder(
                         "Estoque por local"
@@ -178,10 +175,6 @@ public class TelaMultilocalizacao {
         );
 
 
-        // Coloca a tabela dentro de um JScrollPane.
-        //
-        // Isso permite que o usuário possa rolar a tabela
-        // caso existam muitos registros.
         estoqueLocal.add(
                 new JScrollPane(tabela),
                 BorderLayout.CENTER
@@ -192,23 +185,15 @@ public class TelaMultilocalizacao {
         // ÁREA DE TRANSFERÊNCIA ENTRE LOCAIS
         // --------------------------------------------------
 
-        // Cria o painel responsável pela transferência
-        // de produtos de um local para outro.
-        //
-        // Estou usando GridBagLayout porque preciso
-        // organizar vários campos em linhas e colunas.
         JPanel transferencia =
                 new JPanel(
                         new GridBagLayout()
                 );
 
 
-        // Define o fundo branco da área de transferência.
         transferencia.setBackground(Color.WHITE);
 
 
-        // Cria uma borda com título para identificar
-        // essa parte da tela.
         transferencia.setBorder(
                 BorderFactory.createTitledBorder(
                         "Transferência entre locais"
@@ -216,215 +201,228 @@ public class TelaMultilocalizacao {
         );
 
 
-        // Cria o objeto que controla a posição
-        // dos componentes dentro do GridBagLayout.
         GridBagConstraints gbc =
                 new GridBagConstraints();
 
 
-        // Define o espaçamento entre os componentes.
-        //
-        // Os valores representam:
-        // cima, esquerda, baixo e direita.
         gbc.insets =
                 new Insets(7, 10, 7, 10);
 
 
-        // Faz os componentes ocuparem horizontalmente
-        // o espaço disponível.
         gbc.fill =
                 GridBagConstraints.HORIZONTAL;
 
 
-        // Define que as colunas poderão receber
-        // espaço extra quando a janela aumentar.
         gbc.weightx = 1;
 
 
         // --------------------------------------------------
-        // ORIGEM E DESTINO
+        // ORIGEM
         // --------------------------------------------------
 
-        // Define a coluna e a linha onde
-        // o primeiro componente será colocado.
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto que identifica
-        // o local de origem da transferência.
         transferencia.add(
                 new JLabel("Origem:"),
                 gbc
         );
 
 
-        // Cria o campo onde será informado
-        // o local de origem.
-        JTextField origem =
+        campoOrigem =
                 new JTextField(15);
 
 
-        // Move para a próxima coluna.
         gbc.gridx = 1;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de origem.
         transferencia.add(
-                origem,
+                campoOrigem,
                 gbc
         );
 
 
-        // Move para a terceira coluna.
+        // --------------------------------------------------
+        // DESTINO
+        // --------------------------------------------------
+
         gbc.gridx = 2;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto que identifica
-        // o local de destino.
         transferencia.add(
                 new JLabel("Destino:"),
                 gbc
         );
 
 
-        // Cria o campo onde será informado
-        // o local de destino.
-        JTextField destino =
+        campoDestino =
                 new JTextField(15);
 
 
-        // Move para a quarta coluna.
         gbc.gridx = 3;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de destino.
         transferencia.add(
-                destino,
+                campoDestino,
                 gbc
         );
 
 
         // --------------------------------------------------
-        // PRODUTO E QUANTIDADE
+        // PRODUTO
         // --------------------------------------------------
 
-        // Volta para a primeira coluna
-        // e vai para a segunda linha.
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Produto:".
         transferencia.add(
                 new JLabel("Produto:"),
                 gbc
         );
 
 
-        // Cria o campo onde será informado
-        // o produto que será transferido.
-        JTextField produtoTransferencia =
+        // Campo do produto
+        campoProdutoTransferencia =
                 new JTextField(15);
 
 
-        // Coloca o campo de produto na segunda coluna.
+        // Não permite digitação manual
+        campoProdutoTransferencia.setEditable(false);
+
+
+        // Botão para escolher produto
+        botaoEscolherProdutoTransferencia =
+                new JButton("Escolher");
+
+
+        // Painel contendo campo + botão
+        JPanel painelProdutoTransferencia =
+                new JPanel(
+                        new BorderLayout(5, 0)
+                );
+
+
+        painelProdutoTransferencia.setBackground(
+                Color.WHITE
+        );
+
+
+        painelProdutoTransferencia.add(
+                campoProdutoTransferencia,
+                BorderLayout.CENTER
+        );
+
+
+        painelProdutoTransferencia.add(
+                botaoEscolherProdutoTransferencia,
+                BorderLayout.EAST
+        );
+
+
         gbc.gridx = 1;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo ao painel.
         transferencia.add(
-                produtoTransferencia,
+                painelProdutoTransferencia,
                 gbc
         );
 
 
-        // Move para a terceira coluna.
+        // Ação do botão escolher produto
+        botaoEscolherProdutoTransferencia.addActionListener(
+                e -> escolherProdutoTransferencia()
+        );
+
+
+        // --------------------------------------------------
+        // QUANTIDADE
+        // --------------------------------------------------
+
         gbc.gridx = 2;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Quantidade:".
         transferencia.add(
                 new JLabel("Quantidade:"),
                 gbc
         );
 
 
-        // Cria o campo onde será informada
-        // a quantidade que será transferida.
-        JTextField quantidade =
+        campoQuantidade =
                 new JTextField(15);
 
 
-        // Move para a quarta coluna.
         gbc.gridx = 3;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de quantidade.
         transferencia.add(
-                quantidade,
+                campoQuantidade,
                 gbc
         );
 
 
         // --------------------------------------------------
-        // LOTE E NÚMERO DE SÉRIE
+        // LOTE
         // --------------------------------------------------
 
-        // Volta para a primeira coluna
-        // e vai para a terceira linha.
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Lote:".
         transferencia.add(
                 new JLabel("Lote:"),
                 gbc
         );
 
 
-        // Cria o campo para informar
-        // o lote do produto.
-        JTextField lote =
+        campoLote =
                 new JTextField(15);
 
 
-        // Move para a segunda coluna.
         gbc.gridx = 1;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de lote.
         transferencia.add(
-                lote,
+                campoLote,
                 gbc
         );
 
 
-        // Move para a terceira coluna.
+        // --------------------------------------------------
+        // NÚMERO DE SÉRIE
+        // --------------------------------------------------
+
         gbc.gridx = 2;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Nº de Série:".
         transferencia.add(
                 new JLabel("Nº de Série:"),
                 gbc
         );
 
 
-        // Cria o campo para informar
-        // o número de série do produto.
-        JTextField serie =
+        campoSerie =
                 new JTextField(15);
 
 
-        // Move para a quarta coluna.
         gbc.gridx = 3;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de número de série.
         transferencia.add(
-                serie,
+                campoSerie,
                 gbc
         );
 
@@ -433,32 +431,27 @@ public class TelaMultilocalizacao {
         // DOCUMENTO
         // --------------------------------------------------
 
-        // Volta para a primeira coluna
-        // e vai para a quarta linha.
         gbc.gridx = 0;
         gbc.gridy = 3;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Documento:".
         transferencia.add(
                 new JLabel("Documento:"),
                 gbc
         );
 
 
-        // Cria o campo para informar
-        // o documento relacionado à transferência.
-        JTextField documento =
+        campoDocumento =
                 new JTextField(15);
 
 
-        // Move para a segunda coluna.
         gbc.gridx = 1;
+        gbc.weightx = 1;
 
 
-        // Adiciona o campo de documento.
         transferencia.add(
-                documento,
+                campoDocumento,
                 gbc
         );
 
@@ -467,39 +460,26 @@ public class TelaMultilocalizacao {
         // OBSERVAÇÃO
         // --------------------------------------------------
 
-        // Volta para a primeira coluna
-        // e vai para a quinta linha.
-        gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridx = 2;
+        gbc.weightx = 0;
 
 
-        // Adiciona o texto "Observação:".
         transferencia.add(
                 new JLabel("Observação:"),
                 gbc
         );
 
 
-        // Cria o campo para adicionar
-        // alguma observação sobre a transferência.
-        JTextField observacao =
+        campoObservacao =
                 new JTextField(15);
 
 
-        // Coloca o campo na segunda coluna.
-        gbc.gridx = 1;
+        gbc.gridx = 3;
+        gbc.weightx = 1;
 
 
-        // Faz o campo ocupar três colunas.
-        //
-        // Dessa forma, o campo de observação
-        // fica mais largo.
-        gbc.gridwidth = 3;
-
-
-        // Adiciona o campo de observação.
         transferencia.add(
-                observacao,
+                campoObservacao,
                 gbc
         );
 
@@ -508,70 +488,508 @@ public class TelaMultilocalizacao {
         // BOTÃO DE TRANSFERÊNCIA
         // --------------------------------------------------
 
-        // Cria o botão responsável por realizar
-        // a transferência entre os locais.
         JButton transferir =
                 new JButton(
                         "Realizar Transferência"
                 );
 
 
-        // Define a posição do botão.
-        //
-        // Ele ficará na quarta coluna.
         gbc.gridx = 3;
-
-        // Vai para a sexta linha.
-        gbc.gridy = 5;
-
-        // Volta a ocupar apenas uma coluna.
-        gbc.gridwidth = 1;
+        gbc.gridy = 4;
+        gbc.weightx = 0;
 
 
-        // Adiciona o botão ao painel.
         transferencia.add(
                 transferir,
                 gbc
         );
 
 
+        // Ação do botão
+        transferir.addActionListener(
+                e -> realizarTransferencia()
+        );
+
+
         // --------------------------------------------------
-        // ORGANIZAÇÃO DOS PAINÉIS NA TELA
+        // ORGANIZAÇÃO FINAL
         // --------------------------------------------------
 
-        // Adiciona a área de pesquisa na parte superior
-        // da tela.
-        painel.add(
+        add(
                 produtoPanel,
                 BorderLayout.NORTH
         );
 
 
-        // Adiciona a tabela no centro da tela.
-        //
-        // Como está no CENTER, ela ocupa a maior
-        // parte do espaço disponível.
-        painel.add(
+        add(
                 estoqueLocal,
                 BorderLayout.CENTER
         );
 
 
-        // Adiciona a área de transferência
-        // na parte inferior da tela.
-        painel.add(
+        add(
                 transferencia,
                 BorderLayout.SOUTH
         );
     }
 
 
-    // Método que retorna o painel principal dessa tela.
-    //
-    // A classe TelaMovimentacaoRastreabilidade utiliza
-    // esse método para colocar essa tela dentro
-    // da aba "Multilocalização".
-    public JPanel getPainel() {
-        return painel;
+    // --------------------------------------------------
+    // LISTA DE PRODUTOS ESCOLARES
+    // --------------------------------------------------
+
+    private String[] obterProdutos() {
+
+        return new String[]{
+
+                "Caderno",
+
+                "Caneta",
+
+                "Lápis",
+
+                "Borracha",
+
+                "Apontador",
+
+                "Régua",
+
+                "Mochila escolar",
+
+                "Estojo",
+
+                "Uniforme escolar",
+
+                "Papel sulfite",
+
+                "Cartolina",
+
+                "Cola branca",
+
+                "Tesoura escolar",
+
+                "Marcador de texto",
+
+                "Pasta escolar"
+        };
+    }
+
+
+    // --------------------------------------------------
+    // ESCOLHER PRODUTO PARA PESQUISA
+    // --------------------------------------------------
+
+    private void escolherProdutoPesquisa() {
+
+        String[] produtos =
+                obterProdutos();
+
+
+        String produtoSelecionado =
+                (String) JOptionPane.showInputDialog(
+
+                        this,
+
+                        "Selecione o produto:",
+
+                        "Escolher produto",
+
+                        JOptionPane.QUESTION_MESSAGE,
+
+                        null,
+
+                        produtos,
+
+                        produtos[0]
+                );
+
+
+        if (produtoSelecionado != null) {
+
+            campoProdutoPesquisa.setText(
+                    produtoSelecionado
+            );
+        }
+    }
+
+
+    // --------------------------------------------------
+    // ESCOLHER PRODUTO PARA TRANSFERÊNCIA
+    // --------------------------------------------------
+
+    private void escolherProdutoTransferencia() {
+
+        String[] produtos =
+                obterProdutos();
+
+
+        String produtoSelecionado =
+                (String) JOptionPane.showInputDialog(
+
+                        this,
+
+                        "Selecione o produto:",
+
+                        "Escolher produto",
+
+                        JOptionPane.QUESTION_MESSAGE,
+
+                        null,
+
+                        produtos,
+
+                        produtos[0]
+                );
+
+
+        if (produtoSelecionado != null) {
+
+            campoProdutoTransferencia.setText(
+                    produtoSelecionado
+            );
+        }
+    }
+
+
+    /**
+     * Realiza a pesquisa do produto.
+     */
+    private void pesquisarProduto() {
+
+        String produto =
+                campoProdutoPesquisa
+                        .getText()
+                        .trim();
+
+
+        if (produto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+
+                    "Escolha um produto para pesquisar.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            botaoEscolherProdutoPesquisa.requestFocus();
+
+            return;
+        }
+
+
+        // Limpa os registros atuais
+        modeloTabela.setRowCount(0);
+
+
+        /*
+         * Dados de exemplo relacionados
+         * a uma escola.
+         *
+         * Futuramente esses dados podem
+         * vir do banco de dados.
+         */
+
+        modeloTabela.addRow(
+                new Object[]{
+                        "Almoxarifado",
+                        100,
+                        "L001",
+                        "N/A"
+                }
+        );
+
+
+        modeloTabela.addRow(
+                new Object[]{
+                        "Sala dos Professores",
+                        25,
+                        "L002",
+                        "N/A"
+                }
+        );
+
+
+        modeloTabela.addRow(
+                new Object[]{
+                        "Biblioteca",
+                        15,
+                        "L003",
+                        "N/A"
+                }
+        );
+
+
+        modeloTabela.addRow(
+                new Object[]{
+                        "Secretaria",
+                        30,
+                        "L004",
+                        "N/A"
+                }
+        );
+
+
+        JOptionPane.showMessageDialog(
+
+                this,
+
+                "Pesquisa realizada para o produto:\n"
+                        + produto,
+
+                "Pesquisa",
+
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+
+    /**
+     * Realiza a transferência entre locais.
+     */
+    private void realizarTransferencia() {
+
+        String origem =
+                campoOrigem.getText().trim();
+
+
+        String destino =
+                campoDestino.getText().trim();
+
+
+        String produto =
+                campoProdutoTransferencia
+                        .getText()
+                        .trim();
+
+
+        String quantidade =
+                campoQuantidade
+                        .getText()
+                        .trim();
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DA ORIGEM
+        // --------------------------------------------------
+
+        if (origem.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Informe o local de origem.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoOrigem.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DO DESTINO
+        // --------------------------------------------------
+
+        if (destino.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Informe o local de destino.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoDestino.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VERIFICA ORIGEM E DESTINO
+        // --------------------------------------------------
+
+        if (origem.equalsIgnoreCase(destino)) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "O local de origem não pode ser "
+                            + "igual ao local de destino.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoDestino.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DO PRODUTO
+        // --------------------------------------------------
+
+        if (produto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Escolha um produto.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            botaoEscolherProdutoTransferencia
+                    .requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DA QUANTIDADE
+        // --------------------------------------------------
+
+        if (quantidade.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Informe a quantidade.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoQuantidade.requestFocus();
+
+            return;
+        }
+
+
+        // Verifica se a quantidade é válida
+        try {
+
+            double valor =
+                    Double.parseDouble(
+                            quantidade.replace(",", ".")
+                    );
+
+
+            if (valor <= 0) {
+
+                JOptionPane.showMessageDialog(
+
+                        this,
+
+                        "A quantidade deve ser maior que zero.",
+
+                        "Atenção",
+
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+
+                campoQuantidade.requestFocus();
+
+                return;
+            }
+
+
+        } catch (NumberFormatException ex) {
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Informe uma quantidade válida.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoQuantidade.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // CONFIRMAÇÃO
+        // --------------------------------------------------
+
+        JOptionPane.showMessageDialog(
+
+                this,
+
+                "Transferência realizada com sucesso!\n\n"
+
+                        + "Produto: " + produto + "\n"
+
+                        + "Origem: " + origem + "\n"
+
+                        + "Destino: " + destino + "\n"
+
+                        + "Quantidade: " + quantidade,
+
+                "Transferência",
+
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+
+        limparTransferencia();
+    }
+
+
+    /**
+     * Limpa os campos da transferência.
+     */
+    private void limparTransferencia() {
+
+        campoOrigem.setText("");
+
+        campoDestino.setText("");
+
+        campoProdutoTransferencia.setText("");
+
+        campoQuantidade.setText("");
+
+        campoLote.setText("");
+
+        campoSerie.setText("");
+
+        campoDocumento.setText("");
+
+        campoObservacao.setText("");
     }
 }

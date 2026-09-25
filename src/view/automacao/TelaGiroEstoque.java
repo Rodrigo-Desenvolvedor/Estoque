@@ -1,18 +1,16 @@
-package telas;
+package view.automacao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class TelaGiroEstoque extends JFrame {
+public class TelaGiroEstoque extends JPanel {
 
-    private DefaultTableModel modelo;
+    private static final long serialVersionUID = 1L;
+	private DefaultTableModel modelo;
 
     public TelaGiroEstoque() {
-        setTitle("Giro de Estoque");
         setSize(700, 450);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
 
         JLabel titulo = new JLabel(
                 "ANÁLISE DE GIRO DE ESTOQUE",

@@ -1,16 +1,15 @@
-package telas;
+package view.automacao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class TelaAlertaReposicao extends JFrame {
+public class TelaAlertaReposicao extends JPanel {
 
-    private DefaultTableModel modelo;
+    private static final long serialVersionUID = 1L;
+	private DefaultTableModel modelo;
     public TelaAlertaReposicao() {
-        setTitle("Alerta de Reposição");
+
         setSize(750, 450);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
 
         JLabel titulo = new JLabel(
                 "PRODUTOS QUE NECESSITAM DE REPOSIÇÃO",

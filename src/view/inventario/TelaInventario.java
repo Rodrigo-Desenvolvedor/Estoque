@@ -6,7 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class TelaInventario extends JFrame {
+public class TelaInventario extends JPanel {
 	private static final long serialVersionUID = 10L;
 
 	private JLabel lblNome;
@@ -27,10 +27,7 @@ public class TelaInventario extends JFrame {
 	private DefaultTableModel modeloTabela;
 
 	public TelaInventario() {
-		setTitle("Estoque - Inventário");
 		setSize(1200, 800);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
 		criarComponentes();

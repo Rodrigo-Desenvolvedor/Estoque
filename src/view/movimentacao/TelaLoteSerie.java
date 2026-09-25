@@ -18,524 +18,351 @@ import java.awt.*;
 
 
 // Classe responsável pela tela de controle de Lote e Série.
-public class TelaLoteSerie {
+public class TelaLoteSerie extends JPanel {
+
+
+	private static final long serialVersionUID = 1L;
+
+	// Cor de fundo da tela
+	private final Color COR_FUNDO =
+	        new Color(245, 247, 250);
 
-
-    // Define a cor de fundo utilizada na tela.
-    private final Color COR_FUNDO =
-            new Color(245, 247, 250);
-
-
-    // Declara o painel principal da tela.
-    //
-    // Esse painel será retornado pelo método getPainel()
-    // para ser colocado na aba "Lote e Série".
-    private JPanel painel;
-
-
-    // Construtor da classe.
-    //
-    // Quando a tela é criada, o método criarTela()
-    // é chamado para montar todos os componentes.
-    public TelaLoteSerie() {
-
-        criarTela();
-
-    }
-
-
-    // Método responsável por criar e organizar
-    // todos os elementos visuais da tela.
-    private void criarTela() {
-
-
-        // Cria o painel principal utilizando BorderLayout.
-        //
-        // Os valores 15, 15 definem o espaçamento
-        // horizontal e vertical entre os componentes.
-        painel = new JPanel(
-                new BorderLayout(15, 15)
-        );
-
-
-        // Cria uma margem de 20 pixels
-        // em todos os lados da tela.
-        painel.setBorder(
-                new EmptyBorder(20, 20, 20, 20)
-        );
-
-
-        // Define a cor de fundo do painel.
-        painel.setBackground(COR_FUNDO);
-
-
-        // --------------------------------------------------
-        // ÁREA DE PESQUISA
-        // --------------------------------------------------
-
-        // Cria o painel onde ficarão os campos
-        // utilizados para pesquisar informações
-        // de rastreabilidade.
-        //
-        // Estou usando GridBagLayout porque preciso
-        // organizar os campos em linhas e colunas.
-        JPanel filtros =
-                new JPanel(
-                        new GridBagLayout()
-                );
-
-
-        // Define o fundo branco da área de pesquisa.
-        filtros.setBackground(Color.WHITE);
-
-
-        // Cria uma borda com título para deixar claro
-        // qual é a função dessa área.
-        filtros.setBorder(
-                BorderFactory.createTitledBorder(
-                        "Pesquisa de rastreabilidade"
-                )
-        );
-
-
-        // Cria o objeto responsável por controlar
-        // a posição dos componentes dentro do GridBagLayout.
-        GridBagConstraints gbc =
-                new GridBagConstraints();
-
-
-        // Define o espaçamento entre os componentes.
-        //
-        // Os valores representam:
-        // cima, esquerda, baixo e direita.
-        gbc.insets =
-                new Insets(8, 10, 8, 10);
-
-
-        // Faz os componentes ocuparem
-        // o espaço horizontal disponível.
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
-
-
-        // --------------------------------------------------
-        // CAMPO PRODUTO
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // o campo do produto.
-        JLabel produtoLabel =
-                new JLabel("Produto:");
-
-
-        // Cria o campo onde será informado
-        // o produto que será pesquisado.
-        JTextField produto =
-                new JTextField(20);
-
-
-        // --------------------------------------------------
-        // CAMPO TIPO
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // o tipo de rastreabilidade.
-        JLabel tipoLabel =
-                new JLabel("Tipo:");
-
-
-        // Cria uma caixa de seleção.
-        //
-        // O usuário poderá escolher entre rastrear
-        // por lote ou por número de série.
-        JComboBox<String> tipo =
-                new JComboBox<>(
-                        new String[]{
-                                "Lote",
-                                "Número de Série"
-                        }
-                );
-
-
-        // --------------------------------------------------
-        // CAMPO LOTE
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // o campo de lote.
-        JLabel loteLabel =
-                new JLabel("Lote:");
-
-
-        // Cria o campo onde será informado
-        // o número ou código do lote.
-        JTextField lote =
-                new JTextField(15);
-
-
-        // --------------------------------------------------
-        // CAMPO NÚMERO DE SÉRIE
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // o número de série.
-        JLabel serieLabel =
-                new JLabel("Número de série:");
-
-
-        // Cria o campo onde será informado
-        // o número de série do produto.
-        JTextField serie =
-                new JTextField(15);
-
-
-        // --------------------------------------------------
-        // DATA DE FABRICAÇÃO
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // a data de fabricação.
-        JLabel fabricacaoLabel =
-                new JLabel("Data de fabricação:");
-
-
-        // Cria o campo onde será informada
-        // a data de fabricação.
-        JTextField fabricacao =
-                new JTextField(10);
-
-
-        // --------------------------------------------------
-        // DATA DE VALIDADE
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // a data de validade.
-        JLabel validadeLabel =
-                new JLabel("Data de validade:");
-
-
-        // Cria o campo onde será informada
-        // a data de validade.
-        JTextField validade =
-                new JTextField(10);
-
-
-        // --------------------------------------------------
-        // FORNECEDOR
-        // --------------------------------------------------
-
-        // Cria o texto que identifica
-        // o campo do fornecedor.
-        JLabel fornecedorLabel =
-                new JLabel("Fornecedor:");
-
-
-        // Cria o campo onde será informado
-        // o fornecedor do produto.
-        JTextField fornecedor =
-                new JTextField(15);
-
-
-        // --------------------------------------------------
-        // PRIMEIRA LINHA
-        // --------------------------------------------------
-
-        // Define que o primeiro componente ficará
-        // na primeira coluna e primeira linha.
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-
-        // Adiciona o texto "Produto:" na primeira coluna.
-        filtros.add(
-                produtoLabel,
-                gbc
-        );
-
-
-        // Move para a segunda coluna.
-        gbc.gridx = 1;
-
-
-        // Adiciona o campo de produto.
-        filtros.add(
-                produto,
-                gbc
-        );
-
-
-        // Move para a terceira coluna.
-        gbc.gridx = 2;
-
-
-        // Adiciona o texto "Tipo:".
-        filtros.add(
-                tipoLabel,
-                gbc
-        );
-
-
-        // Move para a quarta coluna.
-        gbc.gridx = 3;
-
-
-        // Adiciona a caixa de seleção do tipo.
-        filtros.add(
-                tipo,
-                gbc
-        );
-
-
-        // --------------------------------------------------
-        // SEGUNDA LINHA
-        // --------------------------------------------------
-
-        // Volta para a primeira coluna
-        // e vai para a segunda linha.
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-
-
-        // Adiciona o texto "Lote:".
-        filtros.add(
-                loteLabel,
-                gbc
-        );
-
-
-        // Move para a segunda coluna.
-        gbc.gridx = 1;
-
-
-        // Adiciona o campo de lote.
-        filtros.add(
-                lote,
-                gbc
-        );
-
-
-        // Move para a terceira coluna.
-        gbc.gridx = 2;
-
-
-        // Adiciona o texto "Número de série:".
-        filtros.add(
-                serieLabel,
-                gbc
-        );
-
-
-        // Move para a quarta coluna.
-        gbc.gridx = 3;
-
-
-        // Adiciona o campo de número de série.
-        filtros.add(
-                serie,
-                gbc
-        );
-
-
-        // --------------------------------------------------
-        // TERCEIRA LINHA
-        // --------------------------------------------------
-
-        // Volta para a primeira coluna
-        // e vai para a terceira linha.
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-
-
-        // Adiciona o texto da data de fabricação.
-        filtros.add(
-                fabricacaoLabel,
-                gbc
-        );
-
-
-        // Move para a segunda coluna.
-        gbc.gridx = 1;
-
-
-        // Adiciona o campo de fabricação.
-        filtros.add(
-                fabricacao,
-                gbc
-        );
-
-
-        // Move para a terceira coluna.
-        gbc.gridx = 2;
-
-
-        // Adiciona o texto da data de validade.
-        filtros.add(
-                validadeLabel,
-                gbc
-        );
-
-
-        // Move para a quarta coluna.
-        gbc.gridx = 3;
-
-
-        // Adiciona o campo de validade.
-        filtros.add(
-                validade,
-                gbc
-        );
-
-
-        // --------------------------------------------------
-        // QUARTA LINHA
-        // --------------------------------------------------
-
-        // Volta para a primeira coluna
-        // e vai para a quarta linha.
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-
-
-        // Adiciona o texto "Fornecedor:".
-        filtros.add(
-                fornecedorLabel,
-                gbc
-        );
-
-
-        // Move para a segunda coluna.
-        gbc.gridx = 1;
-
-
-        // Adiciona o campo de fornecedor.
-        filtros.add(
-                fornecedor,
-                gbc
-        );
-
-
-        // Cria o botão que será utilizado
-        // para realizar a pesquisa.
-        JButton pesquisar =
-                new JButton("Pesquisar");
-
-
-        // Coloca o botão na quarta coluna.
-        gbc.gridx = 3;
-
-
-        // Adiciona o botão ao painel de filtros.
-        filtros.add(
-                pesquisar,
-                gbc
-        );
-
-
-        // --------------------------------------------------
-        // TABELA DE HISTÓRICO
-        // --------------------------------------------------
-
-        // Define os nomes das colunas da tabela.
-        //
-        // Essas colunas representam as principais
-        // informações necessárias para acompanhar
-        // a rastreabilidade do produto.
-        String[] colunas = {
-                "Data/Hora",
-                "Produto",
-                "Movimento",
-                "Quantidade",
-                "Origem",
-                "Destino",
-                "Localização",
-                "Responsável"
-        };
-
-
-        // Cria o modelo da tabela.
-        //
-        // A tabela começa sem registros,
-        // pois os dados serão adicionados posteriormente.
-        DefaultTableModel modeloTabela =
-                new DefaultTableModel(
-                        new Object[][]{},
-                        colunas
-                );
-
-
-        // Cria a tabela utilizando o modelo criado.
-        JTable tabela =
-                new JTable(modeloTabela);
-
-
-        // Define a altura das linhas da tabela
-        // para facilitar a visualização.
-        tabela.setRowHeight(28);
-
-
-        // Cria o painel responsável por apresentar
-        // o histórico de rastreabilidade.
-        JPanel historico =
-                new JPanel(
-                        new BorderLayout()
-                );
-
-
-        // Define o fundo branco do painel.
-        historico.setBackground(Color.WHITE);
-
-
-        // Cria uma borda com o título
-        // "Histórico de rastreabilidade".
-        historico.setBorder(
-                BorderFactory.createTitledBorder(
-                        "Histórico de rastreabilidade"
-                )
-        );
-
-
-        // Coloca a tabela dentro de um JScrollPane.
-        //
-        // Isso permite que o usuário possa rolar
-        // a tabela quando houver muitos registros.
-        historico.add(
-                new JScrollPane(tabela),
-                BorderLayout.CENTER
-        );
-
-
-        // --------------------------------------------------
-        // ORGANIZAÇÃO FINAL DA TELA
-        // --------------------------------------------------
-
-        // Coloca a área de pesquisa na parte superior
-        // da tela.
-        painel.add(
-                filtros,
-                BorderLayout.NORTH
-        );
-
-
-        // Coloca o histórico no centro da tela.
-        //
-        // Dessa forma, a tabela ocupa a maior parte
-        // do espaço disponível.
-        painel.add(
-                historico,
-                BorderLayout.CENTER
-        );
-    }
-
-
-    // Retorna o painel principal dessa tela.
-    //
-    // Esse método é utilizado pela classe
-    // TelaMovimentacaoRastreabilidade para colocar
-    // essa tela dentro da aba "Lote e Série".
-    public JPanel getPainel() {
-
-        return painel;
-
-    }
+	// Campos de pesquisa
+	private JTextField campoProduto;
+	private JComboBox<String> campoTipo;
+	private JTextField campoLote;
+	private JTextField campoSerie;
+	private JTextField campoFabricacao;
+	private JTextField campoValidade;
+	private JTextField campoFornecedor;
+
+	// Tabela de histórico
+	private JTable tabela;
+	private DefaultTableModel modeloTabela;
+
+	public TelaLoteSerie() {
+
+	    criarTela();
+	}
+
+	/**
+	 * Cria a interface da tela.
+	 */
+	private void criarTela() {
+
+	    // Configura o próprio JPanel
+	    setLayout(new BorderLayout(15, 15));
+
+	    setBorder(
+	            new EmptyBorder(20, 20, 20, 20)
+	    );
+
+	    setBackground(COR_FUNDO);
+
+	    // --------------------------------------------------
+	    // ÁREA DE PESQUISA
+	    // --------------------------------------------------
+
+	    JPanel filtros =
+	            new JPanel(new GridBagLayout());
+
+	    filtros.setBackground(Color.WHITE);
+
+	    filtros.setBorder(
+	            BorderFactory.createTitledBorder(
+	                    "Pesquisa de rastreabilidade"
+	            )
+	    );
+
+	    GridBagConstraints gbc =
+	            new GridBagConstraints();
+
+	    gbc.insets =
+	            new Insets(8, 10, 8, 10);
+
+	    gbc.fill =
+	            GridBagConstraints.HORIZONTAL;
+
+	    // --------------------------------------------------
+	    // PRODUTO
+	    // --------------------------------------------------
+
+	    campoProduto =
+	            new JTextField(20);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            0,
+	            "Produto:",
+	            campoProduto
+	    );
+
+	    // --------------------------------------------------
+	    // TIPO
+	    // --------------------------------------------------
+
+	    campoTipo =
+	            new JComboBox<>(
+	                    new String[]{
+	                            "Lote",
+	                            "Número de Série"
+	                    }
+	            );
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            0,
+	            "Tipo:",
+	            campoTipo,
+	            2
+	    );
+
+	    // --------------------------------------------------
+	    // LOTE
+	    // --------------------------------------------------
+
+	    campoLote =
+	            new JTextField(15);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            1,
+	            "Lote:",
+	            campoLote
+	    );
+
+	    // --------------------------------------------------
+	    // NÚMERO DE SÉRIE
+	    // --------------------------------------------------
+
+	    campoSerie =
+	            new JTextField(15);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            1,
+	            "Número de série:",
+	            campoSerie,
+	            2
+	    );
+
+	    // --------------------------------------------------
+	    // DATA DE FABRICAÇÃO
+	    // --------------------------------------------------
+
+	    campoFabricacao =
+	            new JTextField(10);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            2,
+	            "Data de fabricação:",
+	            campoFabricacao
+	    );
+
+	    // --------------------------------------------------
+	    // DATA DE VALIDADE
+	    // --------------------------------------------------
+
+	    campoValidade =
+	            new JTextField(10);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            2,
+	            "Data de validade:",
+	            campoValidade,
+	            2
+	    );
+
+	    // --------------------------------------------------
+	    // FORNECEDOR
+	    // --------------------------------------------------
+
+	    campoFornecedor =
+	            new JTextField(15);
+
+	    adicionarCampo(
+	            filtros,
+	            gbc,
+	            3,
+	            "Fornecedor:",
+	            campoFornecedor
+	    );
+
+	    // --------------------------------------------------
+	    // BOTÃO PESQUISAR
+	    // --------------------------------------------------
+
+	    JButton pesquisar =
+	            new JButton("Pesquisar");
+
+	    gbc.gridx = 3;
+	    gbc.gridy = 3;
+	    gbc.weightx = 0;
+
+	    filtros.add(
+	            pesquisar,
+	            gbc
+	    );
+
+	    // Ação do botão pesquisar
+	    pesquisar.addActionListener(
+	            e -> pesquisar()
+	    );
+
+	    // --------------------------------------------------
+	    // TABELA
+	    // --------------------------------------------------
+
+	    String[] colunas = {
+	            "Data/Hora",
+	            "Produto",
+	            "Movimento",
+	            "Quantidade",
+	            "Origem",
+	            "Destino",
+	            "Localização",
+	            "Responsável"
+	    };
+
+	    modeloTabela =
+	            new DefaultTableModel(
+	                    new Object[][]{},
+	                    colunas
+	            );
+
+	    tabela =
+	            new JTable(modeloTabela);
+
+	    tabela.setRowHeight(28);
+
+	    // Impede edição direta das células
+	    tabela.setDefaultEditor(
+	            Object.class,
+	            null
+	    );
+
+	    // --------------------------------------------------
+	    // HISTÓRICO
+	    // --------------------------------------------------
+
+	    JPanel historico =
+	            new JPanel(
+	                    new BorderLayout()
+	            );
+
+	    historico.setBackground(Color.WHITE);
+
+	    historico.setBorder(
+	            BorderFactory.createTitledBorder(
+	                    "Histórico de rastreabilidade"
+	            )
+	    );
+
+	    historico.add(
+	            new JScrollPane(tabela),
+	            BorderLayout.CENTER
+	    );
+
+	    // --------------------------------------------------
+	    // ADICIONA OS COMPONENTES À TELA
+	    // --------------------------------------------------
+
+	    add(
+	            filtros,
+	            BorderLayout.NORTH
+	    );
+
+	    add(
+	            historico,
+	            BorderLayout.CENTER
+	    );
+	}
+
+	/**
+	 * Adiciona um campo na primeira posição
+	 * do grupo de colunas.
+	 */
+	private void adicionarCampo(
+	        JPanel painel,
+	        GridBagConstraints gbc,
+	        int linha,
+	        String texto,
+	        javax.swing.JComponent componente
+	) {
+
+	    adicionarCampo(
+	            painel,
+	            gbc,
+	            linha,
+	            texto,
+	            componente,
+	            0
+	    );
+	}
+
+	/**
+	 * Adiciona um campo permitindo definir
+	 * a coluna onde ele será colocado.
+	 */
+	private void adicionarCampo(
+	        JPanel painel,
+	        GridBagConstraints gbc,
+	        int linha,
+	        String texto,
+	        javax.swing.JComponent componente,
+	        int coluna
+	) {
+
+	    // Coluna do JLabel
+	    gbc.gridx = coluna;
+	    gbc.gridy = linha;
+	    gbc.weightx = 0;
+
+	    painel.add(
+	            new JLabel(texto),
+	            gbc
+	    );
+
+	    // Coluna do componente
+	    gbc.gridx = coluna + 1;
+	    gbc.weightx = 1;
+
+	    painel.add(
+	            componente,
+	            gbc
+	    );
+	}
+
+	/**
+	 * Realiza a pesquisa.
+	 *
+	 * Por enquanto apenas filtra visualmente
+	 * os dados existentes na tabela.
+	 *
+	 * Posteriormente podemos conectar essa função
+	 * ao banco de dados.
+	 */
+	private void pesquisar() {
+
+	    // Por enquanto a tabela está vazia.
+	    // Aqui futuramente será feita a consulta
+	    // ao banco de dados.
+
+	    JOptionPane.showMessageDialog(
+	            this,
+	            "Pesquisa realizada.\n\n"
+	            + "Em breve esta função será conectada "
+	            + "ao banco de dados.",
+	            "Pesquisa",
+	            JOptionPane.INFORMATION_MESSAGE
+	    );
+	}
 }

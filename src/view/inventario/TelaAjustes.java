@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class TelaAjustes extends JFrame {
+public class TelaAjustes extends JPanel {
 	private static final long serialVersionUID = 10L;
 
 	private JComboBox<String> comboOutrasAcoes;
@@ -23,10 +23,7 @@ public class TelaAjustes extends JFrame {
 	private JTextField txtDataValidade;
 
 	public TelaAjustes() {
-		setTitle("Estoque - Ajustes");
 		setSize(1200, 800);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
 		criarComponentes();

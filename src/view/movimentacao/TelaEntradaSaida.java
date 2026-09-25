@@ -15,113 +15,65 @@ import java.awt.*;
 
 // Classe responsável pela tela de Entrada e Saída
 // de produtos do estoque.
-public class TelaEntradaSaida {
+public class TelaEntradaSaida extends JPanel {
+
+    private static final long serialVersionUID = 1L;
+
+    // Cores da tela
+    private final Color COR_FUNDO = new Color(245, 247, 250);
+    private final Color COR_BOTAO = new Color(52, 152, 219);
+
+    // Campos do formulário
+    private JComboBox<String> campoTipo;
+
+    private JTextField campoProduto;
+    private JButton botaoEscolherProduto;
+
+    private JTextField campoCodigo;
+    private JTextField campoQuantidade;
+
+    private JComboBox<String> campoMotivo;
+
+    private JTextField campoDocumento;
+    private JTextField campoOrigem;
+    private JTextField campoDestino;
+    private JTextField campoResponsavel;
+
+    private JTextArea campoObservacao;
 
 
-    // Define a cor de fundo utilizada na tela.
-    private final Color COR_FUNDO =
-            new Color(245, 247, 250);
-
-
-    // Define a cor utilizada no botão
-    // de registrar a movimentação.
-    private final Color COR_BOTAO =
-            new Color(52, 152, 219);
-
-
-    // Declara o painel principal da tela.
-    //
-    // Esse painel será retornado pelo método getPainel()
-    // e utilizado dentro da aba "Entrada e Saída".
-    private JPanel painel;
-
-
-    // Construtor da classe.
-    //
-    // Quando a classe é criada, o método criarTela()
-    // é chamado para montar a interface.
     public TelaEntradaSaida() {
-
         criarTela();
-
     }
 
 
-    // Método responsável por criar
-    // todos os componentes da tela.
     private void criarTela() {
 
-
-        // Cria o painel principal utilizando BorderLayout.
-        //
-        // Os valores 15, 15 definem o espaçamento
-        // entre as regiões da tela.
-        painel = new JPanel(
-                new BorderLayout(15, 15)
-        );
-
-
-        // Adiciona uma margem de 20 pixels
-        // em todos os lados do painel.
-        painel.setBorder(
-                new EmptyBorder(20, 20, 20, 20)
-        );
-
-
-        // Define a cor de fundo da tela.
-        painel.setBackground(COR_FUNDO);
+        // Configuração do próprio JPanel
+        setLayout(new BorderLayout(15, 15));
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setBackground(COR_FUNDO);
 
 
         // --------------------------------------------------
-        // FORMULÁRIO DE MOVIMENTAÇÃO
+        // FORMULÁRIO
         // --------------------------------------------------
 
-        // Cria o painel onde ficarão
-        // os dados da movimentação.
-        //
-        // Estou utilizando GridBagLayout porque ele permite
-        // organizar os campos em linhas e colunas.
-        JPanel formulario =
-                new JPanel(
-                        new GridBagLayout()
-                );
+        JPanel formulario = new JPanel(new GridBagLayout());
 
-
-        // Define o fundo branco do formulário.
         formulario.setBackground(Color.WHITE);
 
-
-        // Cria uma borda com título para identificar
-        // a finalidade desse painel.
         formulario.setBorder(
-                BorderFactory.createTitledBorder(
-                        "Dados da movimentação"
-                )
+            BorderFactory.createTitledBorder(
+                "Dados da movimentação"
+            )
         );
 
 
-        // Cria o objeto responsável por controlar
-        // a posição dos componentes no GridBagLayout.
-        GridBagConstraints gbc =
-                new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
 
-
-        // Define o espaçamento entre os componentes.
-        //
-        // Os valores representam:
-        // cima, esquerda, baixo e direita.
-        gbc.insets =
-                new Insets(8, 10, 8, 10);
-
-
-        // Faz os componentes ocuparem
-        // o espaço horizontal disponível.
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
-
-
-        // Permite que os componentes da segunda coluna
-        // recebam espaço extra quando a tela aumentar.
+        gbc.insets = new Insets(8, 10, 8, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
 
 
@@ -129,19 +81,20 @@ public class TelaEntradaSaida {
         // TIPO DE MOVIMENTAÇÃO
         // --------------------------------------------------
 
-        // Adiciona o campo que permite escolher
-        // se a movimentação será uma entrada ou uma saída.
+        campoTipo = new JComboBox<>(
+            new String[]{
+                "Entrada",
+                "Saída"
+            }
+        );
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                0,
-                "Tipo de movimentação:",
-                new JComboBox<>(
-                        new String[]{
-                                "Entrada",
-                                "Saída"
-                        }
-                )
+            formulario,
+            gbc,
+            0,
+            "Tipo de movimentação:",
+            campoTipo
         );
 
 
@@ -149,14 +102,52 @@ public class TelaEntradaSaida {
         // PRODUTO
         // --------------------------------------------------
 
-        // Adiciona o campo para informar
+        campoProduto = new JTextField(20);
+
+        // Impede o usuário de digitar diretamente
         // o nome do produto.
+        campoProduto.setEditable(false);
+
+
+        // Botão para escolher o produto
+        botaoEscolherProduto = new JButton(
+            "Escolher produto"
+        );
+
+
+        // Quando clicar no botão,
+        // abre a janela para escolher o produto.
+        botaoEscolherProduto.addActionListener(
+            e -> escolherProduto()
+        );
+
+
+        // Painel que contém o campo e o botão
+        JPanel painelProduto = new JPanel(
+            new BorderLayout(5, 0)
+        );
+
+        painelProduto.setBackground(Color.WHITE);
+
+
+        painelProduto.add(
+            campoProduto,
+            BorderLayout.CENTER
+        );
+
+
+        painelProduto.add(
+            botaoEscolherProduto,
+            BorderLayout.EAST
+        );
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                1,
-                "Produto:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            1,
+            "Produto:",
+            painelProduto
         );
 
 
@@ -164,14 +155,19 @@ public class TelaEntradaSaida {
         // CÓDIGO DO PRODUTO
         // --------------------------------------------------
 
-        // Adiciona o campo para informar
-        // o código do produto.
+        campoCodigo = new JTextField(20);
+
+        // O código será preenchido automaticamente
+        // de acordo com o produto escolhido.
+        campoCodigo.setEditable(false);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                2,
-                "Código do produto:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            2,
+            "Código do produto:",
+            campoCodigo
         );
 
 
@@ -179,14 +175,15 @@ public class TelaEntradaSaida {
         // QUANTIDADE
         // --------------------------------------------------
 
-        // Adiciona o campo para informar
-        // a quantidade movimentada.
+        campoQuantidade = new JTextField(20);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                3,
-                "Quantidade:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            3,
+            "Quantidade:",
+            campoQuantidade
         );
 
 
@@ -194,41 +191,40 @@ public class TelaEntradaSaida {
         // MOTIVO
         // --------------------------------------------------
 
-        // Adiciona uma caixa de seleção para indicar
-        // o motivo da movimentação.
-        //
-        // Alguns exemplos são compra, venda,
-        // devolução, transferência e ajuste.
+        campoMotivo = new JComboBox<>(
+            new String[]{
+                "Compra",
+                "Venda",
+                "Devolução de cliente",
+                "Devolução para fornecedor",
+                "Transferência",
+                "Ajuste"
+            }
+        );
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                4,
-                "Motivo:",
-                new JComboBox<>(
-                        new String[]{
-                                "Compra",
-                                "Venda",
-                                "Devolução de cliente",
-                                "Devolução para fornecedor",
-                                "Transferência",
-                                "Ajuste"
-                        }
-                )
+            formulario,
+            gbc,
+            4,
+            "Motivo:",
+            campoMotivo
         );
 
 
         // --------------------------------------------------
-        // DOCUMENTO RELACIONADO
+        // DOCUMENTO
         // --------------------------------------------------
 
-        // Adiciona o campo para informar
-        // algum documento relacionado à movimentação.
+        campoDocumento = new JTextField(20);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                5,
-                "Documento relacionado:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            5,
+            "Documento relacionado:",
+            campoDocumento
         );
 
 
@@ -236,14 +232,15 @@ public class TelaEntradaSaida {
         // ORIGEM
         // --------------------------------------------------
 
-        // Adiciona o campo que identifica
-        // a origem da movimentação.
+        campoOrigem = new JTextField(20);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                6,
-                "Origem:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            6,
+            "Origem:",
+            campoOrigem
         );
 
 
@@ -251,14 +248,15 @@ public class TelaEntradaSaida {
         // DESTINO
         // --------------------------------------------------
 
-        // Adiciona o campo que identifica
-        // o destino da movimentação.
+        campoDestino = new JTextField(20);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                7,
-                "Destino:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            7,
+            "Destino:",
+            campoDestino
         );
 
 
@@ -266,14 +264,15 @@ public class TelaEntradaSaida {
         // RESPONSÁVEL
         // --------------------------------------------------
 
-        // Adiciona o campo para informar
-        // quem é o responsável pela movimentação.
+        campoResponsavel = new JTextField(20);
+
+
         adicionarCampo(
-                formulario,
-                gbc,
-                8,
-                "Responsável:",
-                new JTextField(20)
+            formulario,
+            gbc,
+            8,
+            "Responsável:",
+            campoResponsavel
         );
 
 
@@ -281,59 +280,30 @@ public class TelaEntradaSaida {
         // OBSERVAÇÃO
         // --------------------------------------------------
 
-        // Define a posição da linha da observação.
         gbc.gridx = 0;
         gbc.gridy = 9;
-
-
-        // Aqui o peso da primeira coluna volta para zero,
-        // pois o campo de observação ficará na segunda coluna.
         gbc.weightx = 0;
 
 
-        // Adiciona o texto "Observação:".
         formulario.add(
-                new JLabel("Observação:"),
-                gbc
+            new JLabel("Observação:"),
+            gbc
         );
 
 
-        // Cria uma área de texto maior para permitir
-        // que o usuário escreva uma observação.
-        //
-        // O primeiro número representa a quantidade
-        // aproximada de linhas e o segundo a quantidade
-        // aproximada de colunas.
-        JTextArea observacao =
-                new JTextArea(3, 20);
+        campoObservacao = new JTextArea(3, 20);
+
+        campoObservacao.setLineWrap(true);
+        campoObservacao.setWrapStyleWord(true);
 
 
-        // Permite que o texto passe automaticamente
-        // para a próxima linha quando chegar ao limite.
-        observacao.setLineWrap(true);
-
-
-        // Faz a quebra de linha respeitar as palavras,
-        // evitando cortar uma palavra no meio.
-        observacao.setWrapStyleWord(true);
-
-
-        // Move o componente para a segunda coluna.
         gbc.gridx = 1;
-
-
-        // Permite que a área de observação ocupe
-        // o espaço horizontal disponível.
         gbc.weightx = 1;
 
 
-        // Coloca a área de texto dentro de um JScrollPane.
-        //
-        // Isso permite rolar o conteúdo caso seja
-        // digitada uma observação maior.
         formulario.add(
-                new JScrollPane(observacao),
-                gbc
+            new JScrollPane(campoObservacao),
+            gbc
         );
 
 
@@ -341,68 +311,57 @@ public class TelaEntradaSaida {
         // BOTÕES
         // --------------------------------------------------
 
-        // Cria um painel separado para os botões.
-        //
-        // FlowLayout será usado para colocar
-        // os botões lado a lado.
-        JPanel botoes =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.RIGHT
-                        )
-                );
-
-
-        // Define a mesma cor de fundo da tela
-        // para a área dos botões.
-        botoes.setBackground(COR_FUNDO);
-
-
-        // Cria o botão de cancelar.
-        JButton cancelar =
-                new JButton("Cancelar");
-
-
-        // Cria o botão que será utilizado
-        // para registrar a movimentação.
-        JButton registrar =
-                new JButton(
-                        "Registrar movimentação"
-                );
-
-
-        // Define a cor do botão de registro.
-        registrar.setBackground(COR_BOTAO);
-
-
-        // Define a cor branca para o texto do botão.
-        registrar.setForeground(Color.WHITE);
-
-
-        // Adiciona o botão de cancelar
-        // ao painel de botões.
-        botoes.add(cancelar);
-
-
-        // Adiciona o botão de registrar
-        // ao painel de botões.
-        botoes.add(registrar);
-
-
-        // Coloca o formulário dentro de um JScrollPane.
-        //
-        // Assim, se o formulário ficar maior que
-        // o espaço disponível, será possível rolar a tela.
-        painel.add(
-                new JScrollPane(formulario),
-                BorderLayout.CENTER
+        JPanel botoes = new JPanel(
+            new FlowLayout(FlowLayout.RIGHT)
         );
 
 
-        // Coloca o painel dos botões na parte inferior.
-        painel.add(
-                botoes,
-                BorderLayout.SOUTH
+        botoes.setBackground(COR_FUNDO);
+
+
+        JButton cancelar = new JButton(
+            "Cancelar"
+        );
+
+
+        JButton registrar = new JButton(
+            "Registrar movimentação"
+        );
+
+
+        registrar.setBackground(COR_BOTAO);
+        registrar.setForeground(Color.WHITE);
+
+
+        // Botão Cancelar
+        cancelar.addActionListener(
+            e -> limparCampos()
+        );
+
+
+        // Botão Registrar
+        registrar.addActionListener(
+            e -> registrarMovimentacao()
+        );
+
+
+        botoes.add(cancelar);
+        botoes.add(registrar);
+
+
+        // --------------------------------------------------
+        // ADICIONA OS COMPONENTES À TELA
+        // --------------------------------------------------
+
+        add(
+            new JScrollPane(formulario),
+            BorderLayout.CENTER
+        );
+
+
+        add(
+            botoes,
+            BorderLayout.SOUTH
         );
     }
 
@@ -411,75 +370,429 @@ public class TelaEntradaSaida {
     // MÉTODO PARA ADICIONAR CAMPOS
     // --------------------------------------------------
 
-    // Esse método foi criado para evitar repetir
-    // o mesmo código várias vezes na criação
-    // dos campos do formulário.
-    //
-    // Ele recebe:
-    //
-    // painel -> onde o campo será colocado;
-    // gbc -> controla a posição do componente;
-    // linha -> indica em qual linha ficará o campo;
-    // texto -> texto que aparecerá no JLabel;
-    // componente -> campo que será colocado na tela.
     private void adicionarCampo(
-            JPanel painel,
-            GridBagConstraints gbc,
-            int linha,
-            String texto,
-            JComponent componente
+        JPanel painel,
+        GridBagConstraints gbc,
+        int linha,
+        String texto,
+        JComponent componente
     ) {
 
-
-        // Define que o JLabel ficará
-        // na primeira coluna.
+        // Primeira coluna - descrição
         gbc.gridx = 0;
-
-
-        // Define em qual linha o campo ficará.
         gbc.gridy = linha;
-
-
-        // O JLabel não precisa ocupar
-        // espaço extra horizontal.
         gbc.weightx = 0;
 
 
-        // Adiciona o texto do campo.
         painel.add(
-                new JLabel(texto),
-                gbc
+            new JLabel(texto),
+            gbc
         );
 
 
-        // Move para a segunda coluna.
+        // Segunda coluna - campo
         gbc.gridx = 1;
-
-
-        // Permite que o componente do campo
-        // ocupe o espaço horizontal disponível.
         gbc.weightx = 1;
 
 
-        // Adiciona o componente recebido pelo método.
-        //
-        // Pode ser um JTextField, JComboBox
-        // ou outro componente do Swing.
         painel.add(
-                componente,
-                gbc
+            componente,
+            gbc
         );
     }
 
 
-    // Método que retorna o painel principal dessa tela.
-    //
-    // A classe TelaMovimentacaoRastreabilidade
-    // utiliza esse método para colocar essa tela
-    // dentro da aba "Entrada e Saída".
-    public JPanel getPainel() {
+    // --------------------------------------------------
+    // ESCOLHER PRODUTO
+    // --------------------------------------------------
 
-        return painel;
+    private void escolherProduto() {
 
+        /*
+         * Lista de produtos relacionados
+         * ao ambiente escolar.
+         */
+
+        String[] produtos = {
+
+            "Caderno",
+
+            "Caneta",
+
+            "Lápis",
+
+            "Borracha",
+
+            "Apontador",
+
+            "Régua",
+
+            "Mochila escolar",
+
+            "Estojo",
+
+            "Uniforme escolar",
+
+            "Papel sulfite",
+
+            "Cartolina",
+
+            "Cola branca",
+
+            "Tesoura escolar",
+
+            "Marcador de texto",
+
+            "Pasta escolar"
+        };
+
+
+        // Abre uma janela para o usuário escolher
+        // um dos produtos disponíveis.
+
+        String produtoSelecionado =
+            (String) JOptionPane.showInputDialog(
+
+                this,
+
+                "Selecione o produto:",
+
+                "Escolher produto",
+
+                JOptionPane.QUESTION_MESSAGE,
+
+                null,
+
+                produtos,
+
+                produtos[0]
+            );
+
+
+        // Verifica se o usuário realmente
+        // escolheu algum produto.
+
+        if (produtoSelecionado != null) {
+
+            // Coloca o nome do produto
+            // no campo Produto.
+
+            campoProduto.setText(
+                produtoSelecionado
+            );
+
+
+            // Define o código automaticamente.
+
+            switch (produtoSelecionado) {
+
+                case "Caderno":
+                    campoCodigo.setText("ESC001");
+                    break;
+
+
+                case "Caneta":
+                    campoCodigo.setText("ESC002");
+                    break;
+
+
+                case "Lápis":
+                    campoCodigo.setText("ESC003");
+                    break;
+
+
+                case "Borracha":
+                    campoCodigo.setText("ESC004");
+                    break;
+
+
+                case "Apontador":
+                    campoCodigo.setText("ESC005");
+                    break;
+
+
+                case "Régua":
+                    campoCodigo.setText("ESC006");
+                    break;
+
+
+                case "Mochila escolar":
+                    campoCodigo.setText("ESC007");
+                    break;
+
+
+                case "Estojo":
+                    campoCodigo.setText("ESC008");
+                    break;
+
+
+                case "Uniforme escolar":
+                    campoCodigo.setText("ESC009");
+                    break;
+
+
+                case "Papel sulfite":
+                    campoCodigo.setText("ESC010");
+                    break;
+
+
+                case "Cartolina":
+                    campoCodigo.setText("ESC011");
+                    break;
+
+
+                case "Cola branca":
+                    campoCodigo.setText("ESC012");
+                    break;
+
+
+                case "Tesoura escolar":
+                    campoCodigo.setText("ESC013");
+                    break;
+
+
+                case "Marcador de texto":
+                    campoCodigo.setText("ESC014");
+                    break;
+
+
+                case "Pasta escolar":
+                    campoCodigo.setText("ESC015");
+                    break;
+            }
+        }
+    }
+
+
+    // --------------------------------------------------
+    // LIMPAR CAMPOS
+    // --------------------------------------------------
+
+    private void limparCampos() {
+
+        campoTipo.setSelectedIndex(0);
+
+
+        campoProduto.setText("");
+
+        campoCodigo.setText("");
+
+        campoQuantidade.setText("");
+
+
+        campoMotivo.setSelectedIndex(0);
+
+
+        campoDocumento.setText("");
+
+        campoOrigem.setText("");
+
+        campoDestino.setText("");
+
+        campoResponsavel.setText("");
+
+
+        campoObservacao.setText("");
+    }
+
+
+    // --------------------------------------------------
+    // REGISTRAR MOVIMENTAÇÃO
+    // --------------------------------------------------
+
+    private void registrarMovimentacao() {
+
+        String tipo =
+            (String) campoTipo.getSelectedItem();
+
+
+        String produto =
+            campoProduto.getText().trim();
+
+
+        String codigo =
+            campoCodigo.getText().trim();
+
+
+        String quantidade =
+            campoQuantidade.getText().trim();
+
+
+        String motivo =
+            (String) campoMotivo.getSelectedItem();
+
+
+        String responsavel =
+            campoResponsavel.getText().trim();
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DO PRODUTO
+        // --------------------------------------------------
+
+        if (produto.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                this,
+
+                "Escolha um produto.",
+
+                "Atenção",
+
+                JOptionPane.WARNING_MESSAGE
+            );
+
+
+            botaoEscolherProduto.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DO CÓDIGO
+        // --------------------------------------------------
+
+        if (codigo.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                this,
+
+                "Escolha um produto para gerar o código.",
+
+                "Atenção",
+
+                JOptionPane.WARNING_MESSAGE
+            );
+
+
+            botaoEscolherProduto.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DA QUANTIDADE
+        // --------------------------------------------------
+
+        if (quantidade.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                this,
+
+                "Informe a quantidade.",
+
+                "Atenção",
+
+                JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoQuantidade.requestFocus();
+
+            return;
+        }
+
+
+        // Verifica se a quantidade
+        // é realmente um número.
+
+        try {
+
+            int quantidadeNumero =
+                Integer.parseInt(quantidade);
+
+
+            if (quantidadeNumero <= 0) {
+
+                JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "A quantidade deve ser maior que zero.",
+
+                    "Atenção",
+
+                    JOptionPane.WARNING_MESSAGE
+                );
+
+
+                campoQuantidade.requestFocus();
+
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+
+                this,
+
+                "Digite uma quantidade válida.",
+
+                "Atenção",
+
+                JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoQuantidade.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // VALIDAÇÃO DO RESPONSÁVEL
+        // --------------------------------------------------
+
+        if (responsavel.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+
+                this,
+
+                "Informe o responsável pela movimentação.",
+
+                "Atenção",
+
+                JOptionPane.WARNING_MESSAGE
+            );
+
+
+            campoResponsavel.requestFocus();
+
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // CONFIRMAÇÃO
+        // --------------------------------------------------
+
+        JOptionPane.showMessageDialog(
+
+            this,
+
+            "Movimentação registrada com sucesso!\n\n"
+
+            + "Tipo: " + tipo + "\n"
+
+            + "Produto: " + produto + "\n"
+
+            + "Código: " + codigo + "\n"
+
+            + "Quantidade: " + quantidade + "\n"
+
+            + "Motivo: " + motivo,
+
+            "Movimentação",
+
+            JOptionPane.INFORMATION_MESSAGE
+        );
     }
 }
