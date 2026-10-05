@@ -8,7 +8,8 @@ public class Model {
 	private String nome_prod; 
 	private String categoria_prod;
 	private String descricao_prod;
-	private String modelo_prod;
+	private String uni_med_prod;
+	private String quant_prod;
 	private String peso_prod;
 	private String preco_prod; 
 	private int estoque_prod_min;
@@ -16,8 +17,9 @@ public class Model {
 	private String status_prod;
 	
 	// cadastro variações
-	//um private a mais, ou só um metodo de chamada de FK	// precisa puxar os nomes dos produtos de nome_prod, para saber que a variação é de qual produto
+	private String nome_prod_var;	
 	private String sku;  // Identificador
+	private String nome_var;
 	private String tamanho_prod_var;
 	private String cor_prod_var;
 	private String modelo_prod_var; // puxando de modelo_prod de Cadasto Produto
@@ -28,8 +30,11 @@ public class Model {
 	private String codigo_kit; // Identificador
 	private String nome_kit;
 	private String tipo_kit;
-	//um private a mais, ou só um metodo de chamada de FK	// precisa puxar os nomes dos produtos de nome_prod, para saber que produto esta entrando no kit
 	private int quantidade_kit;
+	private String cod_prod_sku_kit; // fazer uma comparação deste com algum cod_prod ou sku existente
+	private String nome_prod_kit; // puxar uma aba com os nomes de produtos possiveis
+	private int quant_prod_kit; // quantidade de produtos no kit
+	
 	
 	// movimentação entrada e saida
 	private String tipo_mov_es;
@@ -124,14 +129,17 @@ public class Model {
 			String nome_prod,
 			String categoria_prod,
 			String descricao_prod,
-			String modelo_prod,
+			String uni_med_prod,
+			String quant_prod,
 			String peso_prod,
 			String preco_prod,
 			int estoque_prod_min,
 			int estoque_prod_max,
 			String status_prod,
 			
+			String nome_prod_var,
 			String sku,
+			String nome_var,
 			String tamanho_prod_var,
 			String cor_prod_var,
 			String modelo_prod_var,
@@ -142,6 +150,9 @@ public class Model {
 			String nome_kit,
 			String tipo_kit,
 			int quantidade_kit,
+			String cod_prod_sku_kit,
+			String nome_prod_kit,
+			int quant_prod_kit,
 			
 			String tipo_mov_es,
 			int quantidade_mov_es,
@@ -203,24 +214,31 @@ public class Model {
 		this.setNome_prod(nome_prod);
 		this.setCategoria_prod(categoria_prod);
 		this.setDescricao_prod(descricao_prod);
-		this.setModelo_prod(modelo_prod);
+		this.setUni_med_prod(uni_med_prod);
+		this.setQuant_prod(quant_prod);
 		this.setPeso_prod(peso_prod);
 		this.setPreco_prod(preco_prod);
 		this.setEstoque_prod_max(estoque_prod_max);
 		this.setEstoque_prod_min(estoque_prod_min);
 		this.setStatus_prod(status_prod);
 		
+		this.setNome_prod_var(nome_prod_var);
 		this.setSku(sku);
+		this.setNome_var(nome_var);
 		this.setTamanho_prod_var(tamanho_prod_var);
 		this.setCor_prod_var(cor_prod_var);
 		this.setModelo_prod_var(modelo_prod_var);
 		this.setQuantidade_prod(quantidade_prod);
+		this.setNome_prod_kit(nome_prod_kit);
 		this.setPreco_prod_var(preco_prod_var);
 		
 		this.setCodigo_kit(codigo_kit);
 		this.setNome_kit(nome_kit);
 		this.setTipo_kit(tipo_kit);
 		this.setQuantidade_kit(quantidade_kit);
+		this.setCod_prod_sku_kit(cod_prod_sku_kit);
+		this.setNome_prod_kit(nome_prod_kit);
+		this.setQuant_prod_kit(quant_prod_kit);
 		
 		this.setTipo_mov_es(tipo_mov_es);
 		this.setQuantidade_mov_es(quantidade_mov_es);
@@ -310,12 +328,20 @@ public class Model {
 		this.descricao_prod = descricao_prod;
 	}
 
-	public String getModelo_prod() {
-		return modelo_prod;
+	public String getUni_med_prod() {
+		return uni_med_prod;
 	}
 
-	public void setModelo_prod(String modelo_prod) {
-		this.modelo_prod = modelo_prod;
+	public void setUni_med_prod(String uni_med_prod) {
+		this.uni_med_prod = uni_med_prod;
+	}
+
+	public String getQuant_prod() {
+		return quant_prod;
+	}
+
+	public void setQuant_prod(String quant_prod) {
+		this.quant_prod = quant_prod;
 	}
 
 	public String getPeso_prod() {
@@ -358,12 +384,28 @@ public class Model {
 		this.status_prod = status_prod;
 	}
 
+	public String getNome_prod_var() {
+		return nome_prod_var;
+	}
+
+	public void setNome_prod_var(String nome_prod_var) {
+		this.nome_prod_var = nome_prod_var;
+	}
+
 	public String getSku() {
 		return sku;
 	}
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public String getNome_var() {
+		return nome_var;
+	}
+
+	public void setNome_var(String nome_var) {
+		this.nome_var = nome_var;
 	}
 
 	public String getTamanho_prod_var() {
@@ -436,6 +478,30 @@ public class Model {
 
 	public void setQuantidade_kit(int quantidade_kit) {
 		this.quantidade_kit = quantidade_kit;
+	}
+
+	public String getCod_prod_sku_kit() {
+		return cod_prod_sku_kit;
+	}
+
+	public void setCod_prod_sku_kit(String cod_prod_sku_kit) {
+		this.cod_prod_sku_kit = cod_prod_sku_kit;
+	}
+
+	public String getNome_prod_kit() {
+		return nome_prod_kit;
+	}
+
+	public void setNome_prod_kit(String nome_prod_kit) {
+		this.nome_prod_kit = nome_prod_kit;
+	}
+
+	public int getQuant_prod_kit() {
+		return quant_prod_kit;
+	}
+
+	public void setQuant_prod_kit(int quant_prod_kit) {
+		this.quant_prod_kit = quant_prod_kit;
 	}
 
 	public int getQuantidade_mov_es() {
