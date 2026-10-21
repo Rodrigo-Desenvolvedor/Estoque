@@ -28,7 +28,7 @@ import view.automacao.*;
 import view.cadastro.*;
 import view.inventario.*;
 import view.movimentacao.*;
-import view.mrp.*;
+import view.suprimentos.*;
 
 public class TelaEstoque extends JFrame {
 
@@ -105,7 +105,7 @@ public class TelaEstoque extends JFrame {
 		JMenu movimentacao = new JMenu("Movimentação");
 		JMenu inventario = new JMenu("Inventário");
 		JMenu automacao = new JMenu("Automação");
-		JMenu relatorio = new JMenu("Relatório");
+		JMenu suprimentos = new JMenu("Suprimentos");
 		JMenu sistema = new JMenu("Sistema");
 
 		// Itens do menu
@@ -144,6 +144,15 @@ public class TelaEstoque extends JFrame {
 
 		JMenuItem telaMRP =
 			Item("MRP", 12);
+		
+		JMenuItem telaCompras =
+				Item("Compras", 13);
+		
+		JMenuItem telaRecebimento =
+				Item("Recebimento", 14);
+		
+		JMenuItem telaHistorico = Item("Histórico", 15);
+
 
 		// Menu Sistema
 		JMenuItem sobre = new JMenuItem("Sobre");
@@ -183,7 +192,7 @@ public class TelaEstoque extends JFrame {
 		barra.add(movimentacao);
 		barra.add(inventario);
 		barra.add(automacao);
-		barra.add(relatorio);
+		barra.add(suprimentos);
 		barra.add(sistema);
 
 		// Cadastro
@@ -194,15 +203,18 @@ public class TelaEstoque extends JFrame {
 		// Inventário
 		inventario.add(telaAjustes);
 		inventario.add(telaInventario);
+		inventario.add(telaHistorico);
 
 		// Movimentação
 		movimentacao.add(telaEntradaSaida);
 		movimentacao.add(telaLoteSerie);
 		movimentacao.add(telaMultilocalizacao);
 
-		// Relatório
-		relatorio.add(telaMRP);
-
+		// Suprimentos
+		suprimentos.add(telaMRP);
+		suprimentos.add(telaCompras);
+		suprimentos.add(telaRecebimento);
+		
 		// Automação
 		automacao.add(telaAlertaReposicao);
 		automacao.add(telaEstoqueMinMax);
@@ -234,7 +246,8 @@ public class TelaEstoque extends JFrame {
 	private void abrirModulo(int modulo) {
 
 		String titulo;
-		JPanel painel;
+		JPanel painel = null;
+		
 
 		if (modulo == 1) {
 
@@ -355,7 +368,34 @@ public class TelaEstoque extends JFrame {
 			}
 
 			painel = new TelaMRP();
+			
+		} else if (modulo == 13) {
+			
+			titulo = "Compras";
+			
+			if(selecionar(titulo)) {
+				return;
+			}
+			
+			painel = new TelaCompras();
+			
+		} else if (modulo == 14) {
+			
+			titulo = "Recebimento";
+			
+			if(selecionar(titulo)) {
+				return;
+			}
+			
+			painel = new TelaRecebimento();
+			
 
+		} else if (modulo == 15) {
+			titulo = "Histórico";
+			if (selecionar(titulo)) {
+				return;
+			}
+			painel = new TelaHistorico();
 		} else {
 
 			JOptionPane.showMessageDialog(

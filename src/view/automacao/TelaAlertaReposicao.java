@@ -1,9 +1,11 @@
 package view.automacao;
 
+import java.awt.BorderLayout;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
 
 public class TelaAlertaReposicao extends JPanel {
 
@@ -12,13 +14,29 @@ public class TelaAlertaReposicao extends JPanel {
     private final Color COR_FUNDO = new Color(245, 247, 250);
     private final Color COR_BOTAO = new Color(52, 152, 219);
 
-    private JTextField campoProduto;
-    private JComboBox<String> comboUrgencia;
-    private JTable tabelaAlertas;
-    private DefaultTableModel modeloTabela;
+    private final JTextField campoProduto = new JTextField(20);
+    private final JComboBox<String> comboUrgencia = new JComboBox<>(new String[]{
+        "Todas", "Crítica (Abaixo do Mínimo)", "Atenção (Próximo ao Mínimo)"
+    });
 
-    private JButton btnFiltrar;
-    private JButton btnGerarOrdem;
+    private final DefaultTableModel modeloTabela = new DefaultTableModel(
+        new Object[][]{
+            {"ESC001", "Caderno", 5, 20, 30, "Crítica"},
+            {"ESC003", "Lápis", 12, 15, 25, "Atenção"}
+        },
+        new String[]{"Código/SKU", "Produto", "Estoque Atual", "Estoque Mínimo", "Sugestão Reposição", "Urgência"}
+    ) {
+        private static final long serialVersionUID = 1L;
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    private final JTable tabelaAlertas = new JTable(modeloTabela);
+
+    private final JButton btnFiltrar = new JButton("Filtrar Alertas");
+    private final JButton btnGerarOrdem = new JButton("Gerar Ordem de Compra");
 
     public TelaAlertaReposicao() {
         criarTela();
@@ -37,32 +55,16 @@ public class TelaAlertaReposicao extends JPanel {
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        campoProduto = new JTextField(20);
         adicionarCampo(filtros, gbc, 0, 0, "Produto / SKU:", campoProduto);
-
-        comboUrgencia = new JComboBox<>(new String[]{"Todas", "Crítica (Abaixo do Mínimo)", "Atenção (Próximo ao Mínimo)"});
         adicionarCampo(filtros, gbc, 0, 2, "Nível de Urgência:", comboUrgencia);
 
-        btnFiltrar = new JButton("Filtrar Alertas");
         gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.weightx = 0;
         filtros.add(btnFiltrar, gbc);
 
-        String[] colunas = {"Código/SKU", "Produto", "Estoque Atual", "Estoque Mínimo", "Sugestão Reposição", "Urgência"};
-        modeloTabela = new DefaultTableModel(new Object[][]{
-            {"ESC001", "Caderno", 5, 20, 30, "Crítica"},
-            {"ESC003", "Lápis", 12, 15, 25, "Atenção"}
-        }, colunas) {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        tabelaAlertas = new JTable(modeloTabela);
         tabelaAlertas.setRowHeight(28);
+        tabelaAlertas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JPanel painelTabela = new JPanel(new BorderLayout());
         painelTabela.setBackground(Color.WHITE);
@@ -72,7 +74,6 @@ public class TelaAlertaReposicao extends JPanel {
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelAcoes.setBackground(COR_FUNDO);
 
-        btnGerarOrdem = new JButton("Gerar Ordem de Compra");
         btnGerarOrdem.setBackground(COR_BOTAO);
         btnGerarOrdem.setForeground(Color.WHITE);
 
@@ -108,5 +109,38 @@ public class TelaAlertaReposicao extends JPanel {
         Object sugestao = tabelaAlertas.getValueAt(linhaSelecionada, 4);
 
         JOptionPane.showMessageDialog(this, "Ordem de Compra gerada com sucesso para o produto: " + produto + "\nQuantidade Solicitada: " + sugestao, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void limpar() {
+        campoProduto.setText("");
+        if (comboUrgencia.getItemCount() > 0) {
+            comboUrgencia.setSelectedIndex(0);
+        }
+        tabelaAlertas.clearSelection();
+    }
+
+    
+    public JTextField getCampoProduto() {
+        return campoProduto;
+    }
+
+    public JComboBox<String> getComboUrgencia() {
+        return comboUrgencia;
+    }
+
+    public JTable getTabelaAlertas() {
+        return tabelaAlertas;
+    }
+
+    public DefaultTableModel getModeloTabela() {
+        return modeloTabela;
+    }
+
+    public JButton getBtnFiltrar() {
+        return btnFiltrar;
+    }
+
+    public JButton getBtnGerarOrdem() {
+        return btnGerarOrdem;
     }
 }

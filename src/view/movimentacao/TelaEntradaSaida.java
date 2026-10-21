@@ -544,4 +544,31 @@ String quantidade =
             JOptionPane.INFORMATION_MESSAGE
         );
     }
+     public  JComboBox<String>  getcampoTipo() {
+        return campoTipo;
+    }
+
+    public JTextField getcampoQuantidade() {
+        return campoQuantidade;
+    }
+
+    public JComboBox<String> getcampoMotivo() {
+        return campoMotivo;
+    }
+
+    public JTextField getcampoOrigem() {
+        return campoOrigem;
+    }
+
+    public JTextField getcampoDestino() {
+        return campoDestino;
+    }
+
+    public JTextField getcampoResponsavel() {
+        return  campoResponsavel;
+    }
+
+    public JTextArea getcampoObservacao() {
+        return campoObservacao;
+    }
 }

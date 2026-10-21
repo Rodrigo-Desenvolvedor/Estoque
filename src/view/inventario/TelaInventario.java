@@ -101,4 +101,17 @@ public class TelaInventario extends JPanel {
 
 		return scrollPane;
 	}
+
+	public JTextField getTxtNome() {
+		return txtNome;
+	}
+
+	public JTextField getTxtDescricao() {
+		return txtDescricao;
+	}
+
+	public JTextField getTxtQtdEstoque() {
+		return txtQtdEstoque;
+	}
+
 }

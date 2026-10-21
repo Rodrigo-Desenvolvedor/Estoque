@@ -795,4 +795,41 @@ String quantidade =
 
         campoObservacao.setText("");
     }
+     public JTextField getcampoQuantidade() {
+        return campoQuantidade;
+    }
+
+    public JTextField getcampoOrigem() {
+        return campoOrigem;
+    }
+
+    public JTextField getcampoDestino() {
+        return campoDestino;
+    }
+
+    public JTextField getcampoLote() {
+        return  campoLote;
+    }
+
+    public JTextField getcampoSerie() {
+        return campoSerie;
+    }
+    
+    public JTextField getcampoDocumento() {
+        return   campoDocumento;
+    }
+    
+    public JTextField getcampoObservacao() {
+        return   campoObservacao;
+    }
+
+    public DefaultTableModel getModeloTabela() {
+        return modeloTabela;
+    }
+    
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    
 }

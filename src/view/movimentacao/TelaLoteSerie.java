@@ -401,4 +401,34 @@ public class TelaLoteSerie extends JPanel {
 	            JOptionPane.INFORMATION_MESSAGE
 	    );
 	}
+	 public  JComboBox<String>  getcampoTipo() {
+	        return campoTipo;
+	    }
+
+	    public JTextField getcampoLote() {
+	        return  campoLote;
+	    }
+
+	    public  JTextField getcampoSerie() {
+	        return campoSerie;
+	    }
+
+	    public JTextField getcampoFabricacao() {
+	        return campoFabricacao;
+	    }
+
+	    public JTextField getcampoValidade() {
+	        return campoValidade;
+	    }
+
+	    public JTextField getcampoFornecedor() {
+	        return  campoFornecedor;
+	    }
+
+	    public JTable gettabela() {
+	        return tabela;
+	    }
+	    public DefaultTableModel getModeloTabela() {
+	        return modeloTabela;
+	    }
 }

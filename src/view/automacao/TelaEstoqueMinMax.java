@@ -12,17 +12,27 @@ public class TelaEstoqueMinMax extends JPanel {
     private final Color COR_FUNDO = new Color(245, 247, 250);
     private final Color COR_BOTAO = new Color(52, 152, 219);
 
-    private JTextField campoProduto;
-    private JTextField campoEstoqueMin;
-    private JTextField campoEstoqueMax;
-    private JComboBox<String> comboStatus;
+    private final JTextField campoProduto = new JTextField(20);
+    private final JTextField campoEstoqueMin = new JTextField(15);
+    private final JTextField campoEstoqueMax = new JTextField(15);
+    private final JComboBox<String> comboStatus = new JComboBox<>(new String[]{"Todos", "Ativo", "Inativo"});
 
-    private JTable tabela;
-    private DefaultTableModel modeloTabela;
+    private final DefaultTableModel modeloTabela = new DefaultTableModel(
+        new Object[][]{},
+        new String[]{"Produto / SKU", "Estoque Mínimo", "Estoque Máximo", "Status"}
+    ) {
+        private static final long serialVersionUID = 1L;
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
-    private JButton btnSalvar;
-    private JButton btnLimpar;
-    private JButton btnPesquisar;
+    private final JTable tabela = new JTable(modeloTabela);
+
+    private final JButton btnSalvar = new JButton("Salvar Parâmetros");
+    private final JButton btnLimpar = new JButton("Limpar");
+    private final JButton btnPesquisar = new JButton("Pesquisar");
 
     public TelaEstoqueMinMax() {
         criarTela();
@@ -41,24 +51,13 @@ public class TelaEstoqueMinMax extends JPanel {
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        campoProduto = new JTextField(20);
         adicionarCampo(formulario, gbc, 0, 0, "Produto / SKU:", campoProduto);
-
-        comboStatus = new JComboBox<>(new String[]{"Todos", "Ativo", "Inativo"});
         adicionarCampo(formulario, gbc, 0, 2, "Status:", comboStatus);
-
-        campoEstoqueMin = new JTextField(15);
         adicionarCampo(formulario, gbc, 1, 0, "Estoque Mínimo:", campoEstoqueMin);
-
-        campoEstoqueMax = new JTextField(15);
         adicionarCampo(formulario, gbc, 1, 2, "Estoque Máximo:", campoEstoqueMax);
 
-        btnSalvar = new JButton("Salvar Parâmetros");
         btnSalvar.setBackground(COR_BOTAO);
         btnSalvar.setForeground(Color.WHITE);
-
-        btnLimpar = new JButton("Limpar");
-        btnPesquisar = new JButton("Pesquisar");
 
         JPanel botoesForm = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         botoesForm.setBackground(Color.WHITE);
@@ -72,17 +71,8 @@ public class TelaEstoqueMinMax extends JPanel {
         gbc.weightx = 1;
         formulario.add(botoesForm, gbc);
 
-        String[] colunas = {"Produto / SKU", "Estoque Mínimo", "Estoque Máximo", "Status"};
-        modeloTabela = new DefaultTableModel(new Object[][]{}, colunas) {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        tabela = new JTable(modeloTabela);
         tabela.setRowHeight(28);
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JPanel painelTabela = new JPanel(new BorderLayout());
         painelTabela.setBackground(Color.WHITE);
@@ -93,7 +83,7 @@ public class TelaEstoqueMinMax extends JPanel {
         add(painelTabela, BorderLayout.CENTER);
 
         btnSalvar.addActionListener(e -> salvarParametros());
-        btnLimpar.addActionListener(e -> limparCampos());
+        btnLimpar.addActionListener(e -> limpar());
         btnPesquisar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Filtro aplicado com sucesso."));
     }
 
@@ -132,16 +122,55 @@ public class TelaEstoqueMinMax extends JPanel {
             });
 
             JOptionPane.showMessageDialog(this, "Parâmetros salvos com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            limparCampos();
+            limpar();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Digite valores numéricos inteiros válidos para os estoques.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void limparCampos() {
+    public void limpar() {
         campoProduto.setText("");
         campoEstoqueMin.setText("");
         campoEstoqueMax.setText("");
-        comboStatus.setSelectedIndex(0);
+        if (comboStatus.getItemCount() > 0) {
+            comboStatus.setSelectedIndex(0);
+        }
+        tabela.clearSelection();
+    }
+
+    public JTextField getCampoProduto() {
+        return campoProduto;
+    }
+
+    public JTextField getCampoEstoqueMin() {
+        return campoEstoqueMin;
+    }
+
+    public JTextField getCampoEstoqueMax() {
+        return campoEstoqueMax;
+    }
+
+    public JComboBox<String> getComboStatus() {
+        return comboStatus;
+    }
+
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    public DefaultTableModel getModeloTabela() {
+        return modeloTabela;
+    }
+
+    public JButton getBtnSalvar() {
+        return btnSalvar;
+    }
+
+    public JButton getBtnLimpar() {
+        return btnLimpar;
+    }
+
+    public JButton getBtnPesquisar() {
+        return btnPesquisar;
     }
 }

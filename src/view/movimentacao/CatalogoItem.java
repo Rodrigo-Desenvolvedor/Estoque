@@ -37,7 +37,7 @@ import view.movimentacao.CatalogoItens.TipoItem;
  *     }
  *     CatalogoItens.Item item = seletorItem.getItem();
  */
-public class SeletorItem extends JPanel {
+public class CatalogoItem extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
@@ -58,7 +58,7 @@ public class SeletorItem extends JPanel {
      * @param permitirKit false para esconder a opção "Kit"
      *                    (ex.: telas em que kit não faz sentido).
      */
-    public SeletorItem(boolean permitirKit) {
+    public CatalogoItem(boolean permitirKit) {
 
         TipoItem[] tipos = permitirKit
             ? TipoItem.values()
@@ -294,5 +294,24 @@ public class SeletorItem extends JPanel {
 
     public void focar() {
         campoCodigo.requestFocus();
+    }
+    public JComboBox<TipoItem> getcampoTipo() {
+        return campoTipo;
+    }
+
+    public JTextField getcampoCodigo() {
+        return campoCodigo;
+    }
+
+    public JTextField getcampoNome() {
+        return campoNome;
+    }
+
+    public  JButton getbotaoBuscar() {
+        return  botaoBuscar;
+    }
+
+    public Color getcorTextoNormal() {
+        return corTextoNormal;
     }
 }

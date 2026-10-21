@@ -4,11 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ModelRecebimento {
-	private int idFornecedor;
-	private String tipoItem;
-	private String codigoItem;
-	private int leadTime;
-	
 	private int idRecebimento;
 	private int idPedido;
 	private int quantidadeRecebida;
@@ -23,20 +18,13 @@ public class ModelRecebimento {
 	
 	public ModelRecebimento() {}
 	
-	public ModelRecebimento(int idFornecedor, String tipoItem,
-							String codigoItem, int leadTime,
-							int idRecebimento, int idPedido,
-							int quantidadeRecebida, int idLocalDestino,
-							String documentoAquisicao, int idResponsavel,
-							String lote, String numeroSerie,
-							LocalDate dataFabricacao, LocalDate dataValidade,
-							LocalDateTime dataRecebimento) {
+	public ModelRecebimento(int idRecebimento, int idPedido,
+							  int quantidadeRecebida, int idLocalDestino,
+							  String documentoAquisicao, int idResponsavel,
+							  String lote, String numeroSerie,
+							  LocalDate dataFabricacao, LocalDate dataValidade,
+							  LocalDateTime dataRecebimento) {
 		this();
-		this.setIdFornecedor(idFornecedor);
-		this.setTipoItem(tipoItem);
-		this.setCodigoItem(codigoItem);
-		this.setLeadTime(leadTime);
-		
 		this.setIdRecebimento(idRecebimento);
 		this.setIdPedido(idPedido);
 		this.setQuantidadeRecebida(quantidadeRecebida);
@@ -48,39 +36,6 @@ public class ModelRecebimento {
 		this.setDataFabricacao(dataFabricacao);
 		this.setDataValidade(dataValidade);
 		this.setDataRecebimento(dataRecebimento);
-		
-	}
-
-	public int getIdFornecedor() {
-		return idFornecedor;
-	}
-
-	public void setIdFornecedor(int idFornecedor) {
-		this.idFornecedor = idFornecedor;
-	}
-
-	public String getTipoItem() {
-		return tipoItem;
-	}
-
-	public void setTipoItem(String tipoItem) {
-		this.tipoItem = tipoItem;
-	}
-
-	public String getCodigoItem() {
-		return codigoItem;
-	}
-
-	public void setCodigoItem(String codigoItem) {
-		this.codigoItem = codigoItem;
-	}
-
-	public int getLeadTime() {
-		return leadTime;
-	}
-
-	public void setLeadTime(int leadTime) {
-		this.leadTime = leadTime;
 	}
 
 	public int getIdRecebimento() {
