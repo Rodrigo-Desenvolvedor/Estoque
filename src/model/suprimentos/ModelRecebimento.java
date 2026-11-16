@@ -15,6 +15,8 @@ public class ModelRecebimento {
 	private LocalDate dataFabricacao;
 	private LocalDate dataValidade;
 	private LocalDateTime dataRecebimento;
+	private String statusRecebimento;
+	private String motivoDivergencia;
 	
 	public ModelRecebimento() {}
 	
@@ -23,7 +25,8 @@ public class ModelRecebimento {
 							  String documentoAquisicao, int idResponsavel,
 							  String lote, String numeroSerie,
 							  LocalDate dataFabricacao, LocalDate dataValidade,
-							  LocalDateTime dataRecebimento) {
+							  LocalDateTime dataRecebimento, String statusRecebimento,
+							  String motivoDivergencia) {
 		this();
 		this.setIdRecebimento(idRecebimento);
 		this.setIdPedido(idPedido);
@@ -36,6 +39,8 @@ public class ModelRecebimento {
 		this.setDataFabricacao(dataFabricacao);
 		this.setDataValidade(dataValidade);
 		this.setDataRecebimento(dataRecebimento);
+		this.setStatusRecebimento(statusRecebimento);
+		this.setMotivoDivergencia(motivoDivergencia);
 	}
 
 	public int getIdRecebimento() {
@@ -124,5 +129,21 @@ public class ModelRecebimento {
 
 	public void setDataRecebimento(LocalDateTime dataRecebimento) {
 		this.dataRecebimento = dataRecebimento;
+	}
+
+	public String getStatusRecebimento() {
+		return statusRecebimento;
+	}	
+
+	public void setStatusRecebimento(String statusRecebimento) {
+		this.statusRecebimento = statusRecebimento;
+	}
+
+	public String getMotivoDivergencia() {
+		return motivoDivergencia;
+	}
+
+	public void setMotivoDivergencia(String motivoDivergencia) {
+		this.motivoDivergencia = motivoDivergencia;
 	}
 }
