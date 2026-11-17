@@ -16,6 +16,7 @@ public class ModelPedidoCompraRH {
 	private String documentoAquisicao;
 	private LocalDate dataPedido;
 	private String statusPedido;
+	private String observacao;
 
 	public ModelPedidoCompraRH() {}
 
@@ -26,7 +27,8 @@ public class ModelPedidoCompraRH {
 							   BigDecimal valorResponsabilidadeEmpresa,
 							   int idProcessamentoRH,
 							   String documentoAquisicao,
-							   LocalDate dataPedido, String statusPedido) {
+							   LocalDate dataPedido, String statusPedido,
+							   String observacao) {
 		this();
 		this.setIdPedidoRH(idPedidoRH);
 		this.setIdRequisicaoRH(idRequisicaoRH);
@@ -39,6 +41,7 @@ public class ModelPedidoCompraRH {
 		this.setDocumentoAquisicao(documentoAquisicao);
 		this.setDataPedido(dataPedido);
 		this.setStatusPedido(statusPedido);
+		this.setObservacao(observacao);
 	}
 
 	public int getIdPedidoRH() {
@@ -127,5 +130,13 @@ public class ModelPedidoCompraRH {
 
 	public void setStatusPedido(String statusPedido) {
 		this.statusPedido = statusPedido;
+	}
+
+	public String getObservacao() {
+    		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+    		this.observacao = observacao;
 	}
 }
