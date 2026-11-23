@@ -9,12 +9,6 @@ public class TelaRecebimento extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    // cores da padronização visual
-    private static final Color AZUL_MENU = new Color(27, 54, 93);
-    private static final Color FUNDO = new Color(245, 247, 250);
-    private static final Color BORDA = new Color(226, 232, 240);
-    private static final Color TEXTO = new Color(30, 38, 52);
-
     // campos para os filtros
     private final JTextField idPedidoFiltro = new JTextField(15);
 
@@ -87,7 +81,6 @@ public class TelaRecebimento extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // cor de fundo
-        setBackground(FUNDO);
 
         // monta os componentes
         montar();
@@ -98,16 +91,9 @@ public class TelaRecebimento extends JPanel {
         // título principal
         JLabel titulo = new JLabel("Recebimento / Conferência");
         titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 20f));
-        titulo.setForeground(AZUL_MENU);
 
         // painel com os filtros
         JPanel f = new JPanel(new GridBagLayout());
-        f.setBackground(FUNDO);
-
-        // borda e título do painel de filtros
-        TitledBorder bordaFiltros = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Filtros");
-        bordaFiltros.setTitleColor(TEXTO);
-        f.setBorder(bordaFiltros);
 
         // configuração que organiza os campos do painel
         GridBagConstraints g = new GridBagConstraints();
@@ -122,7 +108,6 @@ public class TelaRecebimento extends JPanel {
 
         // painel dos botões de filtro
         JPanel b = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        b.setBackground(FUNDO);
 
         JButton filtrar = new JButton("Filtrar");
         JButton limpar = new JButton("Limpar");
@@ -136,7 +121,6 @@ public class TelaRecebimento extends JPanel {
 
         // título, filtros e botões na parte superior
         JPanel n = new JPanel(new BorderLayout());
-        n.setBackground(FUNDO);
 
         n.add(titulo, BorderLayout.NORTH);
         n.add(f, BorderLayout.CENTER);
@@ -144,38 +128,17 @@ public class TelaRecebimento extends JPanel {
 
         // painel com os pedidos aguardando recebimento
         JPanel painelPedidos = new JPanel(new BorderLayout());
-        painelPedidos.setBackground(FUNDO);
 
-        TitledBorder bordaPedidos = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Pedidos aguardando recebimento");
-        bordaPedidos.setTitleColor(TEXTO);
-        painelPedidos.setBorder(bordaPedidos);
-
-        // configuração visual da tabela
-        tabelaPedidos.setForeground(TEXTO);
-        tabelaPedidos.setGridColor(BORDA);
-
-        // cores da linha selecionada
-        tabelaPedidos.setSelectionBackground(AZUL_MENU);
-        tabelaPedidos.setSelectionForeground(Color.WHITE);
-
-        // cor do cabeçalho da tabela
-        tabelaPedidos.getTableHeader().setBackground(AZUL_MENU);
-        tabelaPedidos.getTableHeader().setForeground(Color.WHITE);
 
         // permite selecionar uma única linha por vez
         tabelaPedidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPedidos = new JScrollPane(tabelaPedidos);
-        scrollPedidos.setBorder(BorderFactory.createLineBorder(BORDA));
         painelPedidos.add(scrollPedidos);
 
         // painel com os dados do pedido selecionado
         JPanel dadosPedido = new JPanel(new GridBagLayout());
-        dadosPedido.setBackground(FUNDO);
 
-        TitledBorder bordaDadosPedido = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Dados do Pedido");
-        bordaDadosPedido.setTitleColor(TEXTO);
-        dadosPedido.setBorder(bordaDadosPedido);
 
         GridBagConstraints gp = new GridBagConstraints();
         gp.insets = new Insets(4, 4, 4, 4);
@@ -197,11 +160,6 @@ public class TelaRecebimento extends JPanel {
 
         // painel com os dados da conferência
         JPanel conferencia = new JPanel(new GridBagLayout());
-        conferencia.setBackground(FUNDO);
-
-        TitledBorder bordaConferencia = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Conferência");
-        bordaConferencia.setTitleColor(TEXTO);
-        conferencia.setBorder(bordaConferencia);
 
         GridBagConstraints gc = new GridBagConstraints();
         gc.insets = new Insets(4, 4, 4, 4);
@@ -220,7 +178,6 @@ public class TelaRecebimento extends JPanel {
 
         // painel dos botões de recebimento
         JPanel a = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        a.setBackground(FUNDO);
 
         JButton confirmar = new JButton("Confirmar Recebimento");
         JButton cancelar = new JButton("Cancelar");
@@ -233,7 +190,6 @@ public class TelaRecebimento extends JPanel {
 
         // junta conferência e botões
         JPanel areaConferencia = new JPanel(new BorderLayout());
-        areaConferencia.setBackground(FUNDO);
 
         areaConferencia.add(conferencia, BorderLayout.CENTER);
         areaConferencia.add(a, BorderLayout.SOUTH);
@@ -241,7 +197,6 @@ public class TelaRecebimento extends JPanel {
         // organiza as áreas principais da tela
         JPanel centro = new JPanel();
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-        centro.setBackground(FUNDO);
 
         painelPedidos.setPreferredSize(new Dimension(800, 190));
 
@@ -260,8 +215,6 @@ public class TelaRecebimento extends JPanel {
 
     // aplica o mesmo padrão visual aos botões
     private void configurarBotao(JButton botao) {
-        botao.setBackground(AZUL_MENU);
-        botao.setForeground(Color.WHITE);
 
         // retira o foco do botão (contorno)
         botao.setFocusPainted(false);
@@ -276,7 +229,6 @@ public class TelaRecebimento extends JPanel {
         g.fill = GridBagConstraints.NONE;
 
         JLabel label = new JLabel(r);
-        label.setForeground(TEXTO);
         p.add(label, g);
 
         // campo correspondente na coluna 1
@@ -284,7 +236,6 @@ public class TelaRecebimento extends JPanel {
         g.weightx = 1;
         g.fill = GridBagConstraints.HORIZONTAL;
 
-        t.setForeground(TEXTO);
         p.add(t, g);
     }
 
