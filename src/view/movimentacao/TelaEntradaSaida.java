@@ -279,10 +279,6 @@ public class TelaEntradaSaida extends JPanel {
         );
 
 
-        registrar.setBackground(COR_BOTAO);
-        registrar.setForeground(Color.WHITE);
-
-
         // Botão Cancelar
         cancelar.addActionListener(
             e -> limparCampos()
