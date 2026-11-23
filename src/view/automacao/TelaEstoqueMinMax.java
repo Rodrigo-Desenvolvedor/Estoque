@@ -56,9 +56,6 @@ public class TelaEstoqueMinMax extends JPanel {
         adicionarCampo(formulario, gbc, 1, 0, "Estoque Mínimo:", campoEstoqueMin);
         adicionarCampo(formulario, gbc, 1, 2, "Estoque Máximo:", campoEstoqueMax);
 
-        btnSalvar.setBackground(COR_BOTAO);
-        btnSalvar.setForeground(Color.WHITE);
-
         JPanel botoesForm = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         botoesForm.setBackground(Color.WHITE);
         botoesForm.add(btnLimpar);
