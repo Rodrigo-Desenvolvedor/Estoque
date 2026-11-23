@@ -74,9 +74,6 @@ public class TelaAlertaReposicao extends JPanel {
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelAcoes.setBackground(COR_FUNDO);
 
-        btnGerarOrdem.setBackground(COR_BOTAO);
-        btnGerarOrdem.setForeground(Color.WHITE);
-
         painelAcoes.add(btnGerarOrdem);
 
         add(filtros, BorderLayout.NORTH);
