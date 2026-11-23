@@ -59,9 +59,6 @@ public class TelaGiroEstoque extends JPanel {
         adicionarCampo(filtros, gbc, 0, 2, "Tipo:", comboTipo);
         adicionarCampo(filtros, gbc, 1, 0, "Classificação:", comboClassificacao);
 
-        btnCalcular.setBackground(COR_BOTAO);
-        btnCalcular.setForeground(Color.WHITE);
-
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         painelBotoes.setBackground(Color.WHITE);
         painelBotoes.add(btnLimpar);
