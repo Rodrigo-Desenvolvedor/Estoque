@@ -10,10 +10,6 @@ public class TelaCompras extends JPanel {
     private static final long serialVersionUID = 1L;
 
     // cores da padronização visual
-    private static final Color AZUL_MENU = new Color(27, 54, 93);
-    private static final Color FUNDO = new Color(245, 247, 250);
-    private static final Color BORDA = new Color(226, 232, 240);
-    private static final Color TEXTO = new Color(30, 38, 52);
 
     // campos para os filtros
     private final JTextField idSolicitacaoFiltro = new JTextField(15);
@@ -93,8 +89,6 @@ public class TelaCompras extends JPanel {
         // margem ao redor da tela
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // cor de fundo
-        setBackground(FUNDO);
 
         // monta os componentes
         montar();
@@ -105,16 +99,9 @@ public class TelaCompras extends JPanel {
         // título principal
         JLabel titulo = new JLabel("Compras / Pedido de Compra");
         titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 20f));
-        titulo.setForeground(AZUL_MENU);
 
         // painel com os filtros
         JPanel f = new JPanel(new GridBagLayout());
-        f.setBackground(FUNDO);
-
-        // borda e título do painel de filtros
-        TitledBorder bordaFiltros = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Filtros");
-        bordaFiltros.setTitleColor(TEXTO);
-        f.setBorder(bordaFiltros);
 
         // configuração que organiza os campos do painel
         GridBagConstraints g = new GridBagConstraints();
@@ -130,7 +117,6 @@ public class TelaCompras extends JPanel {
 
         // painel dos botões de filtro
         JPanel b = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        b.setBackground(FUNDO);
 
         JButton filtrar = new JButton("Filtrar");
         JButton limpar = new JButton("Limpar");
@@ -144,7 +130,6 @@ public class TelaCompras extends JPanel {
 
         // título, filtros e botões na parte superior
         JPanel n = new JPanel(new BorderLayout());
-        n.setBackground(FUNDO);
 
         n.add(titulo, BorderLayout.NORTH);
         n.add(f, BorderLayout.CENTER);
@@ -152,36 +137,16 @@ public class TelaCompras extends JPanel {
 
         // tabela com as solicitações aprovadas
         JPanel painelSolicitacoes = new JPanel(new BorderLayout());
-        painelSolicitacoes.setBackground(FUNDO);
-
-        TitledBorder bordaSolicitacoes = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Solicitações aprovadas");
-        bordaSolicitacoes.setTitleColor(TEXTO);
-        painelSolicitacoes.setBorder(bordaSolicitacoes);
-
-        // configuração visual da tabela
-        tabelaSolicitacoes.setForeground(TEXTO);
-        tabelaSolicitacoes.setGridColor(BORDA);
-        tabelaSolicitacoes.setSelectionBackground(AZUL_MENU);
-        tabelaSolicitacoes.setSelectionForeground(Color.WHITE);
-
-        // cor do cabeçalho da tabela
-        tabelaSolicitacoes.getTableHeader().setBackground(AZUL_MENU);
-        tabelaSolicitacoes.getTableHeader().setForeground(Color.WHITE);
 
         // permite selecionar uma única linha por vez
         tabelaSolicitacoes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollSolicitacoes = new JScrollPane(tabelaSolicitacoes);
-        scrollSolicitacoes.setBorder(BorderFactory.createLineBorder(BORDA));
         painelSolicitacoes.add(scrollSolicitacoes);
 
         // painel com os dados para gerar o pedido
         JPanel dadosPedido = new JPanel(new GridBagLayout());
-        dadosPedido.setBackground(FUNDO);
 
-        TitledBorder bordaDadosPedido = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Gerar Pedido de Compra");
-        bordaDadosPedido.setTitleColor(TEXTO);
-        dadosPedido.setBorder(bordaDadosPedido);
 
         GridBagConstraints gd = new GridBagConstraints();
         gd.insets = new Insets(4, 4, 4, 4);
@@ -214,7 +179,6 @@ public class TelaCompras extends JPanel {
 
         // botões para gerar ou cancelar a operação
         JPanel botoesPedido = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        botoesPedido.setBackground(FUNDO);
 
         JButton gerarPedido = new JButton("Gerar Pedido de Compra");
         JButton cancelar = new JButton("Limpar / Cancelar");
@@ -227,39 +191,24 @@ public class TelaCompras extends JPanel {
 
         // junta os dados do pedido e seus botões
         JPanel areaPedido = new JPanel(new BorderLayout());
-        areaPedido.setBackground(FUNDO);
 
         areaPedido.add(dadosPedido, BorderLayout.CENTER);
         areaPedido.add(botoesPedido, BorderLayout.SOUTH);
 
         // tabela com os pedidos de compra
         JPanel painelPedidos = new JPanel(new BorderLayout());
-        painelPedidos.setBackground(FUNDO);
 
-        TitledBorder bordaPedidos = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Pedidos de Compra");
-        bordaPedidos.setTitleColor(TEXTO);
-        painelPedidos.setBorder(bordaPedidos);
 
-        // configuração visual da tabela
-        tabelaPedidos.setForeground(TEXTO);
-        tabelaPedidos.setGridColor(BORDA);
-        tabelaPedidos.setSelectionBackground(AZUL_MENU);
-        tabelaPedidos.setSelectionForeground(Color.WHITE);
 
-        // cor do cabeçalho da tabela
-        tabelaPedidos.getTableHeader().setBackground(AZUL_MENU);
-        tabelaPedidos.getTableHeader().setForeground(Color.WHITE);
 
         // permite selecionar uma única linha por vez
         tabelaPedidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPedidos = new JScrollPane(tabelaPedidos);
-        scrollPedidos.setBorder(BorderFactory.createLineBorder(BORDA));
         painelPedidos.add(scrollPedidos);
 
         // botões relacionados aos pedidos existentes
         JPanel botoesTabela = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        botoesTabela.setBackground(FUNDO);
 
         JButton verDetalhes = new JButton("Ver Detalhes");
         JButton receberPedido = new JButton("Receber Pedido");
@@ -274,7 +223,6 @@ public class TelaCompras extends JPanel {
         // organiza todas as áreas no centro da tela
         JPanel centro = new JPanel();
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-        centro.setBackground(FUNDO);
 
         painelSolicitacoes.setPreferredSize(new Dimension(800, 180));
         painelPedidos.setPreferredSize(new Dimension(800, 180));
@@ -294,8 +242,6 @@ public class TelaCompras extends JPanel {
 
     // aplica o mesmo padrão visual aos botões
     private void configurarBotao(JButton botao) {
-        botao.setBackground(AZUL_MENU);
-        botao.setForeground(Color.WHITE);
 
         // retira o foco do botão (contorno)
         botao.setFocusPainted(false);
@@ -310,7 +256,6 @@ public class TelaCompras extends JPanel {
         g.fill = GridBagConstraints.NONE;
 
         JLabel label = new JLabel(r);
-        label.setForeground(TEXTO);
         p.add(label, g);
 
         // campo correspondente na coluna 1
@@ -318,7 +263,7 @@ public class TelaCompras extends JPanel {
         g.weightx = 1;
         g.fill = GridBagConstraints.HORIZONTAL;
 
-        t.setForeground(TEXTO);
+ 
         p.add(t, g);
     }
 
