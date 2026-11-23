@@ -9,12 +9,6 @@ public class TelaMRP extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    // cores da padronização visual
-    private static final Color AZUL_MENU = new Color(27, 54, 93);
-    private static final Color FUNDO = new Color(245, 247, 250);
-    private static final Color BORDA = new Color(226, 232, 240);
-    private static final Color TEXTO = new Color(30, 38, 52);
-    private static final Color CINZA = Color.GRAY;
 
     // tipo do item para filtro
     private final JComboBox<String> tipoItem = new JComboBox<String>(
@@ -79,9 +73,6 @@ public class TelaMRP extends JPanel {
         // margem ao redor da tela
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // cor de fundo
-        setBackground(FUNDO);
-
         // monta os componentes
         montar();
     }
@@ -91,16 +82,10 @@ public class TelaMRP extends JPanel {
         // título principal
         JLabel titulo = new JLabel("Sugestões de Reposição - MRP");
         titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 20f));
-        titulo.setForeground(AZUL_MENU);
 
         // painel (adesivo) com os filtros
         JPanel f = new JPanel(new GridBagLayout());
-        f.setBackground(FUNDO);
 
-        // borda e título do painel de filtros
-        TitledBorder bordaFiltros = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Filtros");
-        bordaFiltros.setTitleColor(TEXTO);
-        f.setBorder(bordaFiltros);
 
         // configuração que organiza os campos do painel
         GridBagConstraints g = new GridBagConstraints();
@@ -114,7 +99,6 @@ public class TelaMRP extends JPanel {
 
         // painel dos botões de filtro
         JPanel b = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        b.setBackground(FUNDO);
 
         JButton filtrar = new JButton("Filtrar");
         JButton limpar = new JButton("Limpar");
@@ -128,7 +112,6 @@ public class TelaMRP extends JPanel {
 
         // título, filtros e botões na parte superior
         JPanel n = new JPanel(new BorderLayout());
-        n.setBackground(FUNDO);
 
         n.add(titulo, BorderLayout.NORTH);
         n.add(f, BorderLayout.CENTER);
@@ -138,28 +121,9 @@ public class TelaMRP extends JPanel {
 
         // painel central com a tabela de sugestões
         JPanel c = new JPanel(new BorderLayout());
-        c.setBackground(FUNDO);
-
-        // borda e título do painel de sugestões
-        TitledBorder bordaTabela = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Sugestões geradas pelo MRP");
-        bordaTabela.setTitleColor(TEXTO);
-        c.setBorder(bordaTabela);
-
-        // configuração visual da tabela
-        tabela.setForeground(TEXTO);
-        tabela.setGridColor(BORDA);
-
-        // as cores mudam quando a linha é selecionada
-        tabela.setSelectionBackground(AZUL_MENU);
-        tabela.setSelectionForeground(Color.WHITE);
-
-        // cor do cabeçalho da tabela
-        tabela.getTableHeader().setBackground(AZUL_MENU);
-        tabela.getTableHeader().setForeground(Color.WHITE);
 
         // JScrollPane permite rolagem quando se têm muitas linhas
         JScrollPane scrollTabela = new JScrollPane(tabela);
-        scrollTabela.setBorder(BorderFactory.createLineBorder(BORDA));
 
         c.add(scrollTabela);
         add(c, BorderLayout.CENTER);
@@ -169,12 +133,7 @@ public class TelaMRP extends JPanel {
 
         // painel (adesivo) coms os detalhes da sugestão
         JPanel d = new JPanel(new GridBagLayout());
-        d.setBackground(FUNDO);
 
-        // borda e título do painel de detalhes
-        TitledBorder bordaDetalhes = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(BORDA), "Detalhes da sugestão");
-        bordaDetalhes.setTitleColor(TEXTO);
-        d.setBorder(bordaDetalhes);
 
         GridBagConstraints gd = new GridBagConstraints();
         gd.insets = new Insets(4, 4, 4, 4);
@@ -189,17 +148,14 @@ public class TelaMRP extends JPanel {
         // a justificativa quebra de linha automaticamente (evita scroll horizontal); quebra entre palavras, não no meio delas
         justificativa.setLineWrap(true);
         justificativa.setWrapStyleWord(true);
-        justificativa.setForeground(TEXTO);
 
         // acrescenta rolagem no campo de justificativa
         JScrollPane scrollJustificativa = new JScrollPane(justificativa);
-        scrollJustificativa.setBorder(BorderFactory.createLineBorder(BORDA));
 
         componente(d, gd, 5, "Justificativa:", scrollJustificativa);
 
         // painel (adesivo) dos botões da sugestão
         JPanel a = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        a.setBackground(FUNDO);
 
         JButton aprovar = new JButton("Aprovar sugestão");
         JButton alterar = new JButton("Alterar quantidade");
@@ -219,7 +175,6 @@ public class TelaMRP extends JPanel {
 
         // junta os detalhes e os botões na parte inferior da tela
         JPanel s = new JPanel(new BorderLayout());
-        s.setBackground(FUNDO);
 
         s.add(d, BorderLayout.CENTER);
         s.add(a, BorderLayout.SOUTH);
@@ -275,8 +230,6 @@ public class TelaMRP extends JPanel {
 
     // aplica o mesmo padrão visual aos botões
     private void configurarBotao(JButton botao) {
-        botao.setBackground(AZUL_MENU);
-        botao.setForeground(Color.WHITE);
         // retira o foco do botão (contorno)
         botao.setFocusPainted(false);
     }
@@ -292,7 +245,6 @@ public class TelaMRP extends JPanel {
         g.fill = GridBagConstraints.NONE;
 
         JLabel label = new JLabel(r);
-        label.setForeground(TEXTO);
         p.add(label, g);
 
         // campo correspondente na coluna 1
@@ -300,7 +252,6 @@ public class TelaMRP extends JPanel {
         g.weightx = 1;
         g.fill = GridBagConstraints.HORIZONTAL;
 
-        t.setForeground(TEXTO);
         p.add(t, g);
     }
 }
